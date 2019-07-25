@@ -2,4 +2,4 @@
 accounts.yml
 spec/fixtures/account.yml
 coverage
-.DS_Store
+.DS_Store.idea
