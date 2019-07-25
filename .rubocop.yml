@@ -1,4 +1,6 @@
-require: rubocop-performance
+require:
+  - rubocop-performance
+  - rubocop-rspec
 
 RSpec/MessageChain:
   Enabled: false
@@ -23,8 +25,14 @@ Metrics/BlockLength:
 Metrics/LineLength:
   Max: 120
 
+Metricks/BlockNesting:
+  Enabled: false
+
 Documentation:
   Enabled: false
 
-FrozenStringLiteralComment:
-  Enabled: false
+AllCops:
+  Exclude:
+  - 'bin/'
+  - '*.gemspec'
+  TargetRubyVersion: 2.6.3-v

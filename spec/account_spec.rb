@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Account do
   OVERRIDABLE_FILENAME = 'spec/fixtures/account.yml'.freeze
 

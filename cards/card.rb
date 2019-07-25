@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'pry'
 
 class CreditCards
   TYPES = {
-      'usual' => { balance: 50.00 },
-      'capitalist' => { balance: 100.00 },
-      'virtual' => { balance: 150.00 }
+    'usual' => { balance: 50.00 },
+    'capitalist' => { balance: 100.00 },
+    'virtual' => { balance: 150.00 }
   }.freeze
 
   attr_accessor :type, :number, :balance
