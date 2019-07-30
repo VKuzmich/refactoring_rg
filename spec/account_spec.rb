@@ -15,9 +15,9 @@ RSpec.describe Account do
 
   HELLO_PHRASES = [
     'Hello, we are RubyG bank!',
-    '- If you want to create account - press `create`',
-    '- If you want to load account - press `load`',
-    '- If you want to exit - press `exit`'
+    '- If you want to create account - enter `create`',
+    '- If you want to load account - enter `load`',
+    '- If you want to exit - enter `exit`'
   ].freeze
 
   ASK_PHRASES = {
@@ -34,7 +34,7 @@ RSpec.describe Account do
     '- Usual card. 2% tax on card INCOME. 20$ tax on SENDING money from this card. 5% tax on WITHDRAWING money. For creation this card - press `usual`',
     '- Capitalist card. 10$ tax on card INCOME. 10% tax on SENDING money from this card. 4$ tax on WITHDRAWING money. For creation this card - press `capitalist`',
     '- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card. 12% tax on WITHDRAWING money. For creation this card - press `virtual`',
-    '- For exit - press `exit`'
+    '- For exit - enter `exit`'
   ].freeze
 
   # rubocop:enable Metrics/LineLength
@@ -71,14 +71,14 @@ RSpec.describe Account do
 
   MAIN_OPERATIONS_TEXTS = [
     'If you want to:',
-    '- show all cards - press SC',
-    '- create card - press CC',
-    '- destroy card - press DC',
-    '- put money on card - press PM',
-    '- withdraw money on card - press WM',
-    '- send money to another card  - press SM',
-    '- destroy account - press `DA`',
-    '- exit from account - press `exit`'
+    '- show all cards - enter SC',
+    '- create card - enter CC',
+    '- destroy card - enter DC',
+    '- put money on card - enter PM',
+    '- withdraw money on card - enter WM',
+    '- send money to another card  - enter SM',
+    '- destroy account - enter `DA`',
+    '- exit from account - enter `exit`'
   ].freeze
 
   CARDS = {
@@ -715,7 +715,7 @@ RSpec.describe Account do
                 new_balance = default_balance + correct_money_amount_greater_than_tax - custom_card[:tax]
 
                 expect { current_subject.put_money }.to output(
-                  /Money #{correct_money_amount_greater_than_tax} was put on #{custom_card[:number]}. Balance: #{new_balance}. Tax: #{custom_card[:tax]}/
+                  /Money #{correct_money_amount_greater_than_tax} was put on #{custom_card[:number]}.Balance: #{new_balance}. Tax: #{custom_card[:tax]}/
                 ).to_stdout
 
                 expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
