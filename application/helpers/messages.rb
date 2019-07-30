@@ -32,4 +32,10 @@ module Messages
   def exit_message
     puts "press `exit` to exit\n"
   end
+
+  def errors_message
+    @errors.each do |error|
+      puts error
+    end
+  end
 end

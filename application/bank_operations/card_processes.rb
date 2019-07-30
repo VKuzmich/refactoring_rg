@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
-require_relative '../../application/cards/card_capitalist'
-require_relative '../../application/cards/card_usual'
-require_relative '../../application/cards/card_virtual'
-require_relative '../../application/helpers/file_manager'
+# require_relative '../validation'
+require_relative '../cards/card_capitalist'
+require_relative '../cards/card_usual'
+require_relative '../cards/card_virtual'
+require_relative '../bank_operations/account_processes'
 require_relative '../helpers/messages'
-require_relative '../validation'
+
 
 module CardProcesses
   include Messages
   include FileManager
-  include Validation
+  # include Validation
+
 
   def create_card
     loop do
@@ -19,9 +21,9 @@ module CardProcesses
       card = generate_card(cardtype)
       return puts "Wrong card type. Try again!\n" if card.nil?
 
-      cards = @current_account.card << card
-      @current_account.card = cards # important!!!
-      update_accounts(@current_account)
+      cards = @account.current_account.card << card
+      @account.current_account.card = cards
+      update_accounts(@account.current_account)
       break
     end
   end
@@ -35,66 +37,40 @@ module CardProcesses
       choice = gets.chomp
       break if choice == 'exit'
 
-      if answer_validation(choice)
-        puts "Are you sure you want to delete #{@current_account.card[choice.to_i - 1].number}?[y/n]"
-        confirmation = gets.chomp
-        return unless confirmation == 'y'
+      return puts "You entered wrong number!\n" unless answer_validation(choice)
 
-        @current_account.card.delete_at(choice.to_i - 1)
-        update_accounts(@current_account)
-        break
-      else
-        puts "You entered wrong number!\n"
-      end
+      puts "Are you sure you want to delete #{@account.current_account.card[choice.to_i - 1].number}?[y/n]"
+      confirmation = gets.chomp
+      return unless confirmation == 'y'
+
+      @account.current_account.card.delete_at(choice.to_i - 1)
+      update_accounts(@account.current_account)
+      break
     end
   end
 
   def show_cards
-    if cards
-      @current_account.card.each do |card|
-        puts "- #{card.number}, #{card.type}"
-      end
-    else
-      puts "There is no active cards!\n"
+    return puts "There is no active cards!\n" unless cards
+
+    @account.current_account.card.each do |card|
+      puts "- #{card.number}, #{card.type}"
     end
   end
 
   def show_cards_for_operations
-    if cards
-      @current_account.card.each_with_index do |card, index|
-        puts "- #{card.number}, #{card.type}, press #{index + 1}"
-      end
-    else
-      puts "There is no active cards!\n"
-      false
+    return puts "There is no active cards!\n" unless cards
+
+    @account.current_account.card.each_with_index do |card, index|
+      puts "- #{card.number}, #{card.type}, press #{index + 1}"
     end
   end
 
-  def update_accounts(updated_account)
-    new_accounts = accounts.map do |account|
-      account.login == updated_account.login ? updated_account : account
-    end
-    write_to_file(new_accounts)
-  end
-
-  def update_balance(card)
-    accounts.each do |account|
-      account.card.each do |account_card|
-        account_card.balance = card.balance if account_card.number == card.number
-      end
-    end
-  end
-
-  def get_account_by_card(card)
-    accounts.each do |account|
-      account.card.each do |account_card|
-        return account if account_card.number == card.number
-      end
-    end
+  def card_present(card)
+    @account.current_account.card.include? card
   end
 
   def cards
-    @current_account.card.any?
+    @account.current_account.card.any?
   end
 
   def generate_card(enter)
