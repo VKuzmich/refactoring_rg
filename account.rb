@@ -75,35 +75,19 @@ class Account
       puts '- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card. 12% tax on WITHDRAWING money. For creation this card - press `virtual`'
       puts '- For exit - enter `exit`'
 
-      ct = gets.chomp
-      if ct == 'usual' || ct == 'capitalist' || ct == 'virtual'
-        if ct == 'usual'
-          card = {
-              type: 'usual',
-              number: 16.times.map { rand(10) }.join,
-              balance: 50.00
-          }
-        elsif ct == 'capitalist'
-          card = {
-              type: 'capitalist',
-              number: 16.times.map { rand(10) }.join,
-              balance: 100.00
-          }
-        elsif ct == 'virtual'
-          card = {
-              type: 'virtual',
-              number: 16.times.map { rand(10) }.join,
-              balance: 150.00
-          }
-        end
-        cards = @current_account.card << card
+      card = Card.new
+
+      card_type = gets.chomp
+      if card.card_types.key? (card_type.to_sym)
+        card.generate_card(card_type)
+        cards = @current_account.card << card.card_info
         @current_account.card = cards # important!!!
         new_accounts = []
-        accounts.each do |ac|
-          if ac.login == @current_account.login
+        accounts.each do |account|
+          if account.login == @current_account.login
             new_accounts.push(@current_account)
           else
-            new_accounts.push(ac)
+            new_accounts.push(account)
           end
         end
         File.open(@file_path, 'w') { |f| f.write new_accounts.to_yaml } # Storing
