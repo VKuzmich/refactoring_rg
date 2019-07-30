@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
+require_relative 'helpers/messages'
+
 module Console
+  include Messages
+
   def console
-    puts 'Hello, we are RubyG bank!'
-    puts '- If you want to create account - enter `create`'
-    puts '- If you want to load account - enter `load`'
-    puts '- If you want to exit - enter `exit`'
+    console_message
+    choice = gets.chomp
 
-    choose = gets.chomp
-
-    case choose
+    case choice
     when 'create' then create
     when 'load'   then load
     else               exit
@@ -51,30 +51,73 @@ module Console
 
       exit_message
       choice = gets.chomp
-      exit if choice == 'exit'
+      break if choice == 'exit'
       return puts "You entered wrong number!\n" unless answer_validation(choice)
 
-      return @current_account.card[choice.to_i - 1]
+      return @account.current_account.card[choice.to_i - 1]
     end
   end
 
-  def get_amount
+  def choose_recipient_card
+    loop do
+      puts 'Enter the recipient card:'
+      card_number = gets.chomp
+      return puts 'Please, input correct number of card' unless card_number.length == 16
+
+      all_cards = accounts.map(&:card).flatten
+      recipient_card = all_cards.select { |card| card.number == card_number }.first
+      return puts "There is no card with number #{card_number}\n" if recipient_card.nil?
+
+      return recipient_card
+    end
+  end
+
+  def amount_input
     loop do
       puts 'Input the amount'
       amount = gets.chomp
-      return 'You must input correct amount of money' unless amount.to_i.positive?
 
-      return amount.to_i
+      return puts 'You must input correct amount of money' unless amount.to_i.positive?
+
+      return amount
     end
   end
 
-  def get_login
+  def login_input
     puts 'Enter your login'
-    login = gets.chomp
+    gets.chomp
   end
 
-  def get_password
+  def password_input
     puts 'Enter your password'
-    password = gets.chomp
+    gets.chomp
+  end
+
+  def create
+    loop do
+      set_credentials
+      break if valid?
+
+      errors_message
+      @account.errors = []
+    end
+    new_accounts = accounts << @account
+    @account.current_account = @account
+    write_to_file(new_accounts)
+    main_menu
+  end
+
+  def load
+    loop do
+      return create_the_first_account if accounts.none?
+
+      login = login_input
+      password = password_input
+      next puts 'There is no account with given credentials' unless account_exist(login, password)
+
+      @account.current_account = accounts.select { |account| login == account.login }.first
+      break
+    end
+    main_menu
   end
 end

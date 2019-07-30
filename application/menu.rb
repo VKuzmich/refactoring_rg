@@ -42,20 +42,6 @@ module MainMenu
     end
   end
 
-  def choose_recipient_card
-    loop do
-      puts 'Enter the recipient card:'
-      card_number = gets.chomp
-      return puts 'Please, input correct number of card' unless card_number.length == 16
-
-      all_cards = accounts.map(&:card).flatten
-      recipient_card = all_cards.select { |card| card.number == card_number }.first
-      return puts "There is no card with number #{card_number}\n" if recipient_card.nil?
-
-      return recipient_card
-    end
-  end
-
   def get_amount
     loop do
       puts 'Input the amount'

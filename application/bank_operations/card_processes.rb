@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
-# require_relative '../validation'
 require_relative '../cards/card_capitalist'
 require_relative '../cards/card_usual'
 require_relative '../cards/card_virtual'
 require_relative '../bank_operations/account_processes'
 require_relative '../helpers/messages'
-
+require_relative '../validation'
 
 module CardProcesses
   include Messages
   include FileManager
-  # include Validation
+  include Validation
 
 
   def create_card

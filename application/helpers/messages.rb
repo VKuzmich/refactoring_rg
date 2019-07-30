@@ -38,4 +38,32 @@ module Messages
       puts error
     end
   end
+
+  def insufficient_funds
+    puts "You don't have enough money on card for such operation"
+  end
+
+  def high_tax
+    puts 'Tax is higher than input amount'
+  end
+
+  def withdraw_money_msg(amount, current_card)
+    puts "Money #{amount} withdrawed from #{current_card.number}. " \
+         "Money left: #{current_card.balance}. Tax: #{current_card.withdraw_tax(amount)}"
+  end
+
+  def put_money_msg(amount, current_card)
+    puts "Money #{amount} was put on #{current_card.number}. " \
+         "Balance: #{current_card.balance}. Tax: #{current_card.put_tax(amount)}"
+  end
+
+  def send_money_sender_msg(amount, current_card)
+    puts "Money #{amount}$ were withdrawed from #{current_card.number}. " \
+         "Balance: #{current_card.balance}. Tax: #{current_card.sender_tax(amount)}\n"
+  end
+
+  def send_money_recipient_msg(amount, current_card)
+    puts "Money #{amount}$ were put on #{current_card.number}. " \
+         "Balance: #{current_card.balance}. Tax: #{current_card.put_tax(amount)}\n"
+  end
 end
