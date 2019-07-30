@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 
-require_relative 'card_account'
+require_relative 'card_processes'
 require_relative '../helpers/messages'
 require_relative '../validation'
 require_relative '../console'
 
 module MoneyTransfer
   include Messages
-  include CardOperations
+  include CardProcesses
   include Validation
 
   def withdraw_money

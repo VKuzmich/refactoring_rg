@@ -1,11 +1,13 @@
-require_relative '../../application/cards/card_usual'
+# frozen_string_literal: true
+
 require_relative '../../application/cards/card_capitalist'
+require_relative '../../application/cards/card_usual'
 require_relative '../../application/cards/card_virtual'
-require_relative '../helpers/messages'
 require_relative '../../application/helpers/file_manager'
+require_relative '../helpers/messages'
 require_relative '../validation'
 
-module CardOperations
+module CardProcesses
   include Messages
   include FileManager
   include Validation
