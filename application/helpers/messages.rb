@@ -3,14 +3,17 @@
 module Messages
   def create_card_message
     puts 'You could create one of 3 card types'
-    puts '- Usual card. 2% tax on card INCOME. 20$ tax on SENDING money from this card. 5% tax on WITHDRAWING money. For creation this card - enter `usual`'
-    puts '- Capitalist card. 10$ tax on card INCOME. 10% tax on SENDING money from this card. 4$ tax on WITHDRAWING money. For creation this card - enter `capitalist`'
-    puts '- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card. 12% tax on WITHDRAWING money. For creation this card - enter `virtual`'
+    puts '- Usual card. 2% tax on card INCOME. 20$ tax on SENDING money from this card.'
+    puts '5% tax on WITHDRAWING money. For creation this card - enter `usual`'
+    puts '- Capitalist card. 10$ tax on card INCOME. 10% tax on SENDING money from this card.'
+    puts '4$ tax on WITHDRAWING money. For creation this card - enter `capitalist`'
+    puts '- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card. '
+    puts '12% tax on WITHDRAWING money. For creation this card - enter `virtual`'
     puts '- For exit - enter `exit`'
   end
 
   def main_menu_message
-    puts "\nWelcome, #{@current_account.name}"
+    puts "\nWelcome, #{@account.current_account.name}"
     puts 'If you want to:'
     puts '- show all cards - enter SC'
     puts '- create card - enter CC'
@@ -34,7 +37,7 @@ module Messages
   end
 
   def errors_message
-    @errors.each do |error|
+    @errors.errors.each do |error|
       puts error
     end
   end

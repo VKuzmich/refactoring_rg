@@ -3,7 +3,7 @@
 require_relative '../cards/card_capitalist'
 require_relative '../cards/card_usual'
 require_relative '../cards/card_virtual'
-require_relative '../bank_operations/account_processes'
+require_relative 'account_processes'
 require_relative '../helpers/messages'
 require_relative '../validation'
 
@@ -72,11 +72,14 @@ module CardProcesses
     @account.current_account.card.any?
   end
 
-  def generate_card(enter)
-    case enter
-    when 'usual'      then CardUsual.new
-    when 'capitalist' then CardCapitalist.new
-    when 'virtual'    then CardVirtual.new
+  def generate_card(type)
+    case type
+    when 'usual'
+      CardUsual.new
+    when 'capitalist'
+     CardCapitalist.new
+    when 'virtual'
+      CardVirtual.new
     end
   end
 end

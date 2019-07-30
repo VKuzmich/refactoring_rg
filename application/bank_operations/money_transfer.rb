@@ -2,14 +2,15 @@
 
 require_relative 'card_processes'
 require_relative '../helpers/messages'
+require_relative '../helpers/main_menu'
 require_relative '../validation'
-require_relative '../console'
+
 
 module MoneyTransfer
   include Messages
   include CardProcesses
   include Validation
-  include Console
+  include MainMenu
 
   def withdraw_money
     current_card = choose_card

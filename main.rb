@@ -1,5 +1,5 @@
 # frozen_string_literal: true.
 
-require_relative 'account'
+require_relative 'application/console'
 
-Console.new.console
+Console.new.run
