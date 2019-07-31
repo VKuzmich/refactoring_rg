@@ -26,10 +26,10 @@ module Messages
   end
 
   def console_message
-    puts 'Hello, we are RubyG bank!'
+    puts 'hello, we are RubyG bank!'
     puts '- If you want to create account - enter `create`'
     puts '- If you want to load account - enter `load`'
-    puts '- If you want to exit - enter `exit` or anything else'
+    puts '- If you want to exit - enter `exit`'
   end
 
   def exit_message

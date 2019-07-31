@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../cards/card_capitalist'
 require_relative '../cards/card_usual'
+require_relative '../cards/card_capitalist'
 require_relative '../cards/card_virtual'
 require_relative 'account_processes'
 require_relative '../helpers/messages'

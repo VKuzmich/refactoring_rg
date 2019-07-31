@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Validation
   POSITIVE_INFINITY = +1.0 / 0.0
 
