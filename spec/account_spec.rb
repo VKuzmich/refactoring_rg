@@ -6,13 +6,13 @@ RSpec.describe Console do
   OVERRIDABLE_FILENAME = 'spec/fixtures/account.yml'.freeze
 
   COMMON_PHRASES = {
-    create_first_account: "there are no active accounts, type 'y' if you want to create one\n",
-    destroy_account: "Are you sure you want to destroy account?[y/n]\n",
-    if_you_want_to_delete: 'If you want to delete:',
-    choose_card: 'Choose the card for putting:',
-    choose_card_withdrawing: 'Choose the card for withdrawing:',
-    input_amount: 'Input the amount of money you want to put on your card',
-    withdraw_amount: 'Input the amount of money you want to withdraw'
+      create_first_account: "there are no active accounts, type 'y' if you want to create one\n",
+      destroy_account: "Are you sure you want to destroy account?[y/n]\n",
+      if_you_want_to_delete: 'If you want to delete:',
+      choose_card: 'Choose the card for your operation:',
+      choose_card_withdrawing: 'Choose the card for your operation:',
+      input_amount: 'Input the amount',
+      withdraw_amount: 'Input the amount'
   }.freeze
 
   HELLO_PHRASES = [
@@ -71,7 +71,7 @@ RSpec.describe Console do
     wrong_card_type: "Wrong card type. Try again!\n",
     wrong_number: "You entered wrong number!\n",
     correct_amount: 'You must input correct amount of money',
-    tax_higher: 'Your tax is higher than input amount'
+    tax_higher: 'Tax is higher than input amount'
   }.freeze
 
   MAIN_OPERATIONS_TEXTS = [
@@ -82,8 +82,8 @@ RSpec.describe Console do
     '- put money on card - enter PM',
     '- withdraw money on card - enter WM',
     '- send money to another card  - enter SM',
-    '- destroy account - enter `DA`',
-    '- exit from account - enter `exit`'
+    '- destroy account - enter DA',
+    '- exit from account - enter exit'
   ].freeze
 
   CARDS = {
@@ -496,15 +496,15 @@ RSpec.describe Console do
 
       CARDS.each do |card_type, card_info|
         it "create card with #{card_type} type" do
-          expect(current_subject).to receive_message_chain(:gets, :chomp) { card_info[:type] }
+          expect(current_subject).to receive_message_chain(:gets, :chomp) { card_info.type }
 
           current_subject.create_card
 
           expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
           file_accounts = YAML.load_file(OVERRIDABLE_FILENAME)
-          expect(file_accounts.first.card.first[:type]).to eq card_info[:type]
-          expect(file_accounts.first.card.first[:balance]).to eq card_info[:balance]
-          expect(file_accounts.first.card.first[:number].length).to be 16
+          expect(file_accounts.first.card.first.type).to eq card_info.type
+          expect(file_accounts.first.card.first.balance).to eq card_info.balance
+          expect(file_accounts.first.card.first.number.length).to be 16
         end
       end
     end
@@ -524,6 +524,8 @@ RSpec.describe Console do
 
   describe '#destroy_card' do
     context 'without cards' do
+      let(:account) { Account.new }
+
       it 'shows message about not active cards' do
         account.instance_variable_set(:@current_account, instance_double('Account', card: []))
         current_subject.instance_variable_set(:@account, account)
@@ -602,7 +604,7 @@ RSpec.describe Console do
           commands = [deletable_card_number, accept_for_deleting]
           allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*commands)
 
-          expect { current_subject.destroy_card }.to change { current_subject.card.size }.by(-1)
+          expect { current_subject.destroy_card }.to change { current_subject.account.card.size }.by(-1)
 
           expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
           file_accounts = YAML.load_file(OVERRIDABLE_FILENAME)
@@ -613,7 +615,7 @@ RSpec.describe Console do
           commands = [deletable_card_number, reject_for_deleting]
           allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*commands)
 
-          expect { current_subject.destroy_card }.not_to change(current_subject.card, :size)
+          expect { current_subject.destroy_card }.not_to change(current_subject.account.card, :size)
         end
       end
     end

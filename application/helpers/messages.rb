@@ -7,7 +7,7 @@ module Messages
     puts '5% tax on WITHDRAWING money. For creation this card - enter `usual`'
     puts '- Capitalist card. 10$ tax on card INCOME. 10% tax on SENDING money from this card.'
     puts '4$ tax on WITHDRAWING money. For creation this card - enter `capitalist`'
-    puts '- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card. '
+    puts '- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card.'
     puts '12% tax on WITHDRAWING money. For creation this card - enter `virtual`'
     puts '- For exit - enter `exit`'
   end
