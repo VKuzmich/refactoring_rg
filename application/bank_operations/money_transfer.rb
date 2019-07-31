@@ -2,9 +2,8 @@
 
 require_relative 'card_processes'
 require_relative '../helpers/messages'
-require_relative '../helpers/main_menu'
 require_relative '../validation'
-
+require_relative '../helpers/main_menu'
 
 module MoneyTransfer
   include Messages

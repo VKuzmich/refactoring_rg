@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../helpers/messages'
+require_relative 'messages'
 
 module MainMenu
   include Messages

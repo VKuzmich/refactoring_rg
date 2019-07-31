@@ -37,7 +37,7 @@ module Messages
   end
 
   def errors_message
-    @errors.errors.each do |error|
+    @account.errors.each do |error|
       puts error
     end
   end
