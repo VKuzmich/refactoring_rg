@@ -1,0 +1,20 @@
+CARDS:
+  create_card_message: "You could create one of 3 card types
+  \n- Usual card. 2% tax on card INCOME. 20$ tax on SENDING money from this card.
+  \n 5% tax on WITHDRAWING money. For creation this card - enter `usual`
+  \n - Capitalist card. 10$ tax on card INCOME. 10% tax on SENDING money from this card.
+  \n 4$ tax on WITHDRAWING money. For creation this card - enter `capitalist`
+  \n - Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card.
+  \n 12% tax on WITHDRAWING money. For creation this card - enter `virtual`
+  \n - For exit - enter `exit`"
+
+  MAIN_MENU: "\nWelcome, %{name}
+        \nIf you want to:
+        \n- show all cards - enter SC
+        \n- create card - enter CC
+        \n- destroy card - enter DC
+        \n- put money on card - enter PM
+        \n- withdraw money on card - enter WM
+        \n- send money to another card  - enter SM
+        \n- destroy account - enter `DA`
+        \n- exit from account - enter `exit`"

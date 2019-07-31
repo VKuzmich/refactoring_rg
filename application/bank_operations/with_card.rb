@@ -3,13 +3,13 @@
 require_relative '../cards/card_usual'
 require_relative '../cards/card_capitalist'
 require_relative '../cards/card_virtual'
-require_relative 'account_processes'
+require_relative 'with_account'
 require_relative '../helpers/messages'
 require_relative '../validation'
 
-module CardProcesses
+module WithCard
   include Messages
-  include FileManager
+  include Database
   include Validation
 
 

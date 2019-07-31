@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'card_processes'
+require_relative 'with_card'
 require_relative '../helpers/messages'
 require_relative '../validation'
 require_relative '../helpers/main_menu'
 
-module MoneyTransfer
+module WithMoney
   include Messages
-  include CardProcesses
+  include WithCard
   include Validation
   include MainMenu
 

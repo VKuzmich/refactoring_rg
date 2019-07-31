@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../helpers/file_manager'
+require_relative '../helpers/database'
 
-module AccountProcesses
+module WithAccount
   def accounts
     return [] unless File.exist?('accounts.yml')
 

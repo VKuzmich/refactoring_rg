@@ -4,11 +4,11 @@ require_relative 'dependencies'
 
 class Console
   include MainMenu
-  include AccountProcesses
-  include CardProcesses
+  include WithAccount
+  include WithCard
   include UserInfo
-  include FileManager
-  include MoneyTransfer
+  include Database
+  include WithMoney
 
   attr_accessor :account
 
