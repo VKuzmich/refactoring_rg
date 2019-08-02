@@ -95,7 +95,7 @@ module MainMenu
 
   def create
     loop do
-      set_info
+      user_info
       break if valid?
 
       errors_message

@@ -3,9 +3,9 @@
 class Card
   def card_info
     {
-        type: @type,
-        number: @number,
-        balance: @balance
+      type: @type,
+      number: @number,
+      balance: @balance
     }
   end
 

@@ -33,7 +33,7 @@ module UserInfo
     @account.age = age if valid?
   end
 
-  def set_info
+  def user_info
     user_name
     user_age
     user_login
