@@ -31,10 +31,10 @@ module WithAccount
     update_accounts(updated_account)
   end
 
-  def create_the_first_account
-    puts "there are no active accounts, type 'y' if you want to create one"
-    gets.chomp == 'y' ? create : console
-  end
+  # def create_the_first_account
+  #   puts "there are no active accounts, type 'y' if you want to create one"
+  #   gets.chomp == 'y' ? create : console
+  # end
 
   def destroy_account
     puts 'Are you sure you want to destroy account?[y/n]'

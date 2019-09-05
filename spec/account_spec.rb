@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'pry'
+require_relative '../application/dependencies'
+
 
 RSpec.describe Console do
   OVERRIDABLE_FILENAME = 'spec/fixtures/account.yml'.freeze

@@ -1,4 +1,5 @@
-CARDS:
+en:
+  CARDS:
   create_card_message: "You could create one of 3 card types
   \n- Usual card. 2% tax on card INCOME. 20$ tax on SENDING money from this card.
   \n 5% tax on WITHDRAWING money. For creation this card - enter `usual`
@@ -9,12 +10,26 @@ CARDS:
   \n - For exit - enter `exit`"
 
   MAIN_MENU: "\nWelcome, %{name}
-        \nIf you want to:
-        \n- show all cards - enter SC
-        \n- create card - enter CC
-        \n- destroy card - enter DC
-        \n- put money on card - enter PM
-        \n- withdraw money on card - enter WM
-        \n- send money to another card  - enter SM
-        \n- destroy account - enter `DA`
-        \n- exit from account - enter `exit`"
+       \nIf you want to:
+       \n- show all cards - press SC
+       \n- create card - press CC
+       \n- destroy card - press DC
+       \n- put money on card - press PM
+       \n- withdraw money on card - press WM
+       \n- send money to another card  - press SM
+       \n- destroy account - press `DA`
+       \n- exit from account - press `exit`"
+  ERROR:
+    user_not_exists: 'There is no account with given credentials'
+    wrong_command: 'Wrong command. Try again!'
+    no_active_cards: "There is no active cards!\n"
+    wrong_card_type: "Wrong card type. Try again!\n"
+    wrong_number: "You entered wrong number!\n"
+    correct_amount: 'You must input correct amount of money'
+    tax_higher: 'Your tax is higher than input amount'
+    not_enough: "You don't have enough money on card for such operation"
+  ASK:
+    name: 'Enter your name'
+    login: 'Enter your login'
+    password: 'Enter your password'
+    age: 'Enter your age'

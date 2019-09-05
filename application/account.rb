@@ -10,4 +10,5 @@ class Account
     @errors = []
     @file_path = 'accounts.yml'
   end
+
 end
