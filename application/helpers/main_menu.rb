@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'messages'
+require_relative 'ui'
 
 module MainMenu
-  include Messages
+  include UI
 
   def choose_card
     loop do

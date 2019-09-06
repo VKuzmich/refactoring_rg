@@ -4,9 +4,9 @@ require_relative '../helpers/database'
 
 module WithAccount
   def accounts
-    return [] unless File.exist?('accounts.yml')
+    return [] unless File.exist?(PATH)
 
-    YAML.load_file('accounts.yml')
+    YAML.load_file(PATH)
   end
 
   def update_accounts(updated_account)
@@ -29,23 +29,6 @@ module WithAccount
       end
     end
     update_accounts(updated_account)
-  end
-
-  # def create_the_first_account
-  #   puts "there are no active accounts, type 'y' if you want to create one"
-  #   gets.chomp == 'y' ? create : console
-  # end
-
-  def destroy_account
-    puts 'Are you sure you want to destroy account?[y/n]'
-    answer = gets.chomp
-    return unless answer == 'y'
-
-    new_accounts = []
-    accounts.each do |ac|
-      new_accounts.push(ac) unless ac.login == @account.current_account.login
-    end
-    write_to_file(new_accounts)
   end
 
   def account_exist(login, password)

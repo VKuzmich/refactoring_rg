@@ -33,3 +33,9 @@ en:
     login: 'Enter your login'
     password: 'Enter your password'
     age: 'Enter your age'
+  WRONG_CARD_TYPE: "Wrong card type. Try again!\n"
+  want_to_delete: 'If you want to delete:'
+  HELLO: "Hello, we are RubyG bank!
+      \n- If you want to create account - press `create`
+      \n- If you want to load account - press `load`
+      \n- If you want to exit - press `exit`"
