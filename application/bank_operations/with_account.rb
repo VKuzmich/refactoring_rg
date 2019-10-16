@@ -10,24 +10,12 @@ module WithAccount
   end
 
   def update_accounts(updated_account)
-    new_accounts = accounts.map do |account|
-      account.login == updated_account.login ? updated_account : account
-    end
-    write_to_file(new_accounts)
+    write_to_file(update_info(updated_account))
   end
 
   def update_account_by_card(*cards)
     updated_account = ''
-    accounts.each do |account|
-      account.card.each do |account_card|
-        cards.each do |card|
-          next unless account_card.number == card.number
-
-          account_card.balance = card.balance
-          updated_account = account
-        end
-      end
-    end
+    updating_account(cards)
     update_accounts(updated_account)
   end
 
@@ -35,5 +23,34 @@ module WithAccount
     accounts.map do |account|
       { login: account.login, password: account.password }
     end.include?(login: login, password: password)
+  end
+
+  private
+
+  def updating_account(cards)
+    accounts.each do |account|
+      updating_through_card(account, cards)
+    end
+  end
+
+  def updating_through_card(account, cards)
+    account.card.each do |account_card|
+      allowance_updating(account, account_card, cards)
+    end
+  end
+
+  def allowance_updating(account, account_card, cards)
+    cards.each do |card|
+      next unless account_card.number == card.number
+
+      account_card.balance = card.balance
+      updated_account = account
+    end
+  end
+
+  def update_info(updated_account)
+    accounts.map do |account|
+      account.login == updated_account.login ? updated_account : account
+    end
   end
 end

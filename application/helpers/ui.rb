@@ -80,7 +80,7 @@ module UI
     puts I18n.t(:press_exit)
   end
 
-  def errors_message
+  def errors_messages
     @account.errors.each do |error|
       puts error
     end

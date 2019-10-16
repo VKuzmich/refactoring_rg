@@ -8,8 +8,7 @@ module MainMenu
   def choose_card
     message_of_card_choice
     return unless show_cards_for_operations
-    exit_message
-    return exit_or_wrong_number
+    return stop_processing
   end
 
   def choose_recipient_card
@@ -36,6 +35,11 @@ module MainMenu
   end
 
   private
+
+  def stop_processing
+    exit_message
+    return exit_or_wrong_number
+  end
 
   def validate_correct_number
     return puts "There is no card with number #{entering_card_number}\n" if correct_number_card(entering_card_number).nil?

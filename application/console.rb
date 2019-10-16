@@ -29,7 +29,7 @@ class Console
       user_info
       break if valid?
 
-      errors_message
+      errors_messages
       @account.errors = []
     end
     created_new_account
@@ -44,7 +44,7 @@ class Console
       password = password_input
       next puts I18n.t('Load.no_credentials') unless account_exist(login, password)
 
-      @account.current_account = accounts.select { |account| login == account.login }.first
+      checking_login(login)
       break
     end
     main_menu
@@ -57,10 +57,7 @@ class Console
 
   def main_menu
     loop do
-      main_menu_message
-      command = gets.chomp
-
-      case command
+      case choice_proposition
       when COMMANDS[:show_cards]      then show_cards
       when COMMANDS[:create_card]     then create_card
       when COMMANDS[:destroy_card]    then destroy_card
@@ -68,9 +65,9 @@ class Console
       when COMMANDS[:withdraw_money]  then withdraw_money
       when COMMANDS[:send_money]      then send_money
       when COMMANDS[:destroy_account] then return destroy_account
-      when EXIT                       then break exit
+      when I18n.t(:exit)              then break exit
       else
-        puts /#{ERROR_PHRASES[:wrong_command]}/
+        puts I18n.t(:wrong_command)
       end
     end
   end
@@ -81,34 +78,29 @@ class Console
   end
 
   def create_card
-    loop do
-      create_card_message
-      card_type = gets.chomp
-      card = generate_card(card_type)
-      return puts I18n.t(:WRONG_CARD_TYPE) if card.nil?
-
-      created_card(card)
-      break
-    end
+    card = generate_card(choose_type_card)
+    return puts I18n.t(:WRONG_CARD_TYPE) if card.nil?
+    created_card(card)
   end
 
   def destroy_card
     delete_message
     return unless show_cards_for_operations
 
-    choice = entering_exit
+    choice = after_entering_exit
 
-    return if choice == EXIT
+    return if choice == I18n.t('yes')
 
     return puts I18n.t('ERROR.wrong_number') unless answer_validation(choice)
 
-    return unless deleting_confirmation(choice) == YES
+    return unless deleting_confirmation(after_entering_exit) == YES
 
-    deleting_account(choice)
+    deleting_account(after_entering_exit)
 end
 
   def put_money
     current_card = choose_card
+
     return if current_card.nil?
 
     return if amount_input.to_i.zero?
@@ -119,27 +111,27 @@ end
   end
 
   def withdraw_money
-    current_card = choose_card
-    return if current_card.nil?
+
+    return if choose_card.nil?
 
     return if amount_input.to_i.zero?
 
-    return insufficient_funds if money_left(current_card, amount_input.to_i).negative?
-    update_and_message(amount_input.to_i, current_card)
+    return insufficient_funds if money_left(choose_card, amount_input.to_i).negative?
+
+    update_and_message(amount_input.to_i, choose_card)
   end
 
   def send_money
-    recipient_card, sender_card = cards_for_transfers
 
     return if cards_for_transfers.nil?
 
     return if amount_input.to_i.zero?
 
-    sender_recipient_balances(amount_input.to_i, recipient_card, sender_card)
+    transfer_balances(amount_input.to_i, *cards_for_transfers)
 
-    return insufficient_funds unless allow_to_send(recipient_card, sender_card)
+    return insufficient_funds unless allow_to_send(*cards_for_transfers)
 
-    updating_messages(amount_input.to_i, recipient_card, sender_card)
+    updating_messages(amount_input.to_i, *cards_for_transfers)
   end
 
   def destroy_account
@@ -156,6 +148,20 @@ end
   end
 
   private
+
+  def checking_login(login)
+    @account.current_account = accounts.select { |account| login == account.login }.first
+  end
+
+  def choice_proposition
+    main_menu_message
+    gets.chomp
+  end
+
+  def choose_type_card
+    create_card_message
+    gets.chomp
+  end
 
   def show_active_card
     cards = @account.current_account.card
@@ -196,7 +202,7 @@ end
     puts I18n.t(:want_to_delete)
   end
 
-  def entering_exit
+  def after_entering_exit
     exit_message
     gets.chomp
   end
@@ -228,18 +234,15 @@ end
     send_money_recipient_msg(amount, recipient_card)
   end
 
-  def sender_recipient_balances(amount, recipient_card, sender_card)
+  def transfer_balances(amount, recipient_card, sender_card)
     sender_card.balance = sender_card.balance - amount - sender_card.sender_tax(amount)
     recipient_card.balance = recipient_card.balance + amount - recipient_card.put_tax(amount)
   end
 
   def updating_account(recipient_card, sender_card)
-    if card_present(recipient_card)
-      update_account_by_card(recipient_card, sender_card)
-    else
-      update_account_by_card(recipient_card)
-      update_account_by_card(sender_card)
-    end
+    return update_account_by_card(recipient_card, sender_card) if card_present(recipient_card)
+    update_account_by_card(recipient_card)
+    update_account_by_card(sender_card)
   end
 
   def deleting_account(choice)
@@ -256,7 +259,8 @@ end
   def show_cards_for_operations
     return puts I18n.t('ERROR.no_active_cards') unless cards
 
-    @account.current_account.card.each_with_index do |card, index|
+    cards = @account.current_account.card
+    cards.each_with_index do |card, index|
       puts "- #{card.number}, #{card.type}, press #{index + 1}"
     end
   end
