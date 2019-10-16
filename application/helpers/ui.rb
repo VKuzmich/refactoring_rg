@@ -4,8 +4,8 @@ module UI
   YES = 'y'.freeze
 
   COMMANDS = {
-      create: 'create',
-      load: 'load',
+      create: I18n.t(:create),
+      load: I18n.t(:load),
       show_cards: 'SC',
       create_card: 'CC',
       destroy_card: 'DC',
@@ -48,38 +48,38 @@ module UI
     @errors = []
   end
   def create_card_message
-    puts 'You could create one of 3 card types'
-    puts '- Usual card. 2% tax on card INCOME. 20$ tax on SENDING money from this card.'
-    puts '5% tax on WITHDRAWING money. For creation this card - enter `usual`'
-    puts '- Capitalist card. 10$ tax on card INCOME. 10% tax on SENDING money from this card.'
-    puts '4$ tax on WITHDRAWING money. For creation this card - enter `capitalist`'
-    puts '- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card.'
-    puts '12% tax on WITHDRAWING money. For creation this card - enter `virtual`'
-    puts '- For exit - enter `exit`'
+    puts I18n.t('Message.create_card')
+    puts I18n.t('Message.for_usual_card')
+    puts I18n.t('Message.tax_for_withdrawing_usual')
+    puts I18n.t('Message.for_capitalist_card')
+    puts I18n.t('Message.tax_for_withdrawing_capitalist')
+    puts I18n.t('Message.for_virtual_card')
+    puts I18n.t('Message.tax_for_withdrawing_virtual')
+    puts I18n.t('Message.for_exit_enter_exit')
   end
 
   def main_menu_message
     puts "\nWelcome, #{@account.current_account.name}"
-    puts 'If you want to:'
-    puts '- show all cards - enter SC'
-    puts '- create card - enter CC'
-    puts '- destroy card - enter DC'
-    puts '- put money on card - enter PM'
-    puts '- withdraw money on card - enter WM'
-    puts '- send money to another card  - enter SM'
-    puts '- destroy account - enter DA'
-    puts '- exit from account - enter exit'
+    puts I18n.t('Main_menu.if_you_want_to')
+    puts I18n.t('Main_menu.show_all_cards')
+    puts I18n.t('Main_menu.create_card')
+    puts I18n.t('Main_menu.destroy_card')
+    puts I18n.t('Main_menu.money_on_card')
+    puts I18n.t('Main_menu.withdraw_money')
+    puts I18n.t('Main_menu.send_to_another_card')
+    puts I18n.t('Main_menu.destroy_account')
+    puts I18n.t('Main_menu.exit_from_account')
   end
 
   def console_message
-    puts 'hello, we are RubyG bank!'
-    puts '- If you want to create account - enter `create`'
-    puts '- If you want to load account - enter `load`'
-    puts '- If you want to exit - enter `exit`'
+    puts I18n.t('Greetings.greetings')
+    puts I18n.t('Greetings.want_to_create_account')
+    puts I18n.t('Greetings.want_to_load_account')
+    puts I18n.t('Greetings.want_to_exit')
   end
 
   def exit_message
-    puts "press `exit` to exit\n"
+    puts I18n.t(:press_exit)
   end
 
   def errors_message
@@ -89,11 +89,11 @@ module UI
   end
 
   def insufficient_funds
-    puts "You don't have enough money on card for such operation"
+    puts I18n.t('ERROR.not_enough')
   end
 
   def high_tax
-    puts 'Tax is higher than input amount'
+    puts I18n.t('Tax.tax_is_higher_than_input')
   end
 
   def withdraw_money_msg(amount, current_card)

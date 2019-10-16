@@ -6,7 +6,7 @@ class CardCapitalist < Card
   attr_accessor :number, :balance, :type
 
   def initialize
-    @type = 'capitalist'
+    @type = I18n.t(:Capitalist)
     @number = generate_number
     @balance = 100.00
   end

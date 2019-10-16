@@ -12,7 +12,6 @@ module WithCard
   include Validation
   include UI
 
-
   def card_present(card)
     @account.current_account.card.include? card
   end
@@ -23,11 +22,11 @@ module WithCard
 
   def generate_card(type)
     case type
-    when 'usual'
+    when I18n.t('Usual')
       CardUsual.new
-    when 'capitalist'
+    when I18n.t('Capitalist')
      CardCapitalist.new
-    when 'virtual'
+    when I18n.t('Virtual')
       CardVirtual.new
     end
   end

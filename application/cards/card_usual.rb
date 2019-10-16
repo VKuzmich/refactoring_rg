@@ -6,7 +6,7 @@ class CardUsual < Card
   attr_accessor :number, :balance, :type
 
   def initialize
-    @type = 'usual'
+    @type = I18n.t(:Usual)
     @number = generate_number
     @balance = 50.00
   end

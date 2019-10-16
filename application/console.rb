@@ -8,7 +8,7 @@ class Console
   include WithCard
   include UserInfo
   include Database
-  include WithMoney
+  # include WithMoney
   include UI
 
   attr_accessor :account
@@ -49,7 +49,7 @@ class Console
 
       login = login_input
       password = password_input
-      next puts 'There is no account with given credentials' unless account_exist(login, password)
+      next puts I18n.t('Load.no_credentials') unless account_exist(login, password)
 
       @account.current_account = accounts.select { |account| login == account.login }.first
       break
@@ -58,7 +58,7 @@ class Console
   end
 
   def create_the_first_account
-    puts "there are no active accounts, type 'y' if you want to create one"
+    puts I18n.t(:no_active_account_yet)
     gets.chomp == YES ? create : console
   end
 
@@ -77,13 +77,13 @@ class Console
       when COMMANDS[:destroy_account] then return destroy_account
       when EXIT                       then break exit
       else
-        puts "Wrong command. Try again!\n"
+        puts /#{ERROR_PHRASES[:wrong_command]}/
       end
     end
   end
 
   def show_cards
-    return puts "There is no active cards!\n" unless cards
+    return puts I18n.t('ERROR.no_active_cards') unless cards
 
     @account.current_account.card.each do |card|
       puts "- #{card.number}, #{card.type}"
@@ -95,7 +95,7 @@ class Console
       create_card_message
       cardtype = gets.chomp
       card = generate_card(cardtype)
-      return puts "Wrong card type. Try again!\n" if card.nil?
+      return puts I18n.t(:WRONG_CARD_TYPE) if card.nil?
 
       cards = @account.current_account.card << card
       @account.current_account.card = cards
@@ -106,14 +106,14 @@ class Console
 
   def destroy_card
     loop do
-      puts 'If you want to delete:'
+      puts I18n.t(:want_to_delete)
       break unless show_cards_for_operations
 
       exit_message
       choice = gets.chomp
       break if choice == EXIT
 
-      return puts "You entered wrong number!\n" unless answer_validation(choice)
+      return puts I18n.t('ERROR.wrong_number') unless answer_validation(choice)
 
       puts "Are you sure you want to delete #{@account.current_account.card[choice.to_i - 1].number}?[y/n]"
       confirmation = gets.chomp
@@ -199,7 +199,7 @@ class Console
   private
 
   def show_cards_for_operations
-    return puts "There is no active cards!\n" unless cards
+    return puts I18n.t('ERROR.no_active_cards') unless cards
 
     @account.current_account.card.each_with_index do |card, index|
       puts "- #{card.number}, #{card.type}, press #{index + 1}"

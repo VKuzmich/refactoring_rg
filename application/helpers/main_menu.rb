@@ -7,13 +7,13 @@ module MainMenu
 
   def choose_card
     loop do
-      puts 'Choose the card for your operation:'
+      puts I18n.t('Choose the card for your operation:')
       break unless show_cards_for_operations
 
       exit_message
       choice = gets.chomp
       break if choice == 'exit'
-      return puts "You entered wrong number!\n" unless answer_validation(choice)
+      return puts I18n.t('ERROR.wrong_number') unless answer_validation(choice)
 
       return @account.current_account.card[choice.to_i - 1]
     end
@@ -21,9 +21,9 @@ module MainMenu
 
   def choose_recipient_card
     loop do
-      puts 'Enter the recipient card:'
+      puts I18n.t(:enter_recipient_card)
       card_number = gets.chomp
-      return puts 'Please, input correct number of card' unless card_number.length == 16
+      return puts I18n.t('enter_correct_number') unless card_number.length == 16
 
       all_cards = accounts.map(&:card).flatten
       recipient_card = all_cards.select { |card| card.number == card_number }.first
@@ -35,22 +35,22 @@ module MainMenu
 
   def amount_input
     loop do
-      puts 'Input the amount'
+      puts I18n.t('input_the_amount')
       amount = gets.chomp
 
-      return puts 'You must input correct amount of money' unless amount.to_i.positive?
+      return puts I18n.t('ERROR.correct_amount') unless amount.to_i.positive?
 
       return amount
     end
   end
 
   def login_input
-    puts 'Enter your login'
+    puts I18n.t('ASK.login')
     gets.chomp
   end
 
   def password_input
-    puts 'Enter your password'
+    puts I18n.t('ASK.password')
     gets.chomp
   end
 end

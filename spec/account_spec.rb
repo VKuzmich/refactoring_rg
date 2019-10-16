@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require 'pry'
 require_relative '../application/dependencies'
-
 
 RSpec.describe Console do
   OVERRIDABLE_FILENAME = 'spec/fixtures/account.yml'.freeze
@@ -103,24 +101,24 @@ RSpec.describe Console do
       end
 
       it 'create account if input is create' do
-        allow(current_subject).to receive_message_chain(:gets, :chomp) { 'create' }
+        allow(current_subject).to receive_message_chain(:gets, :chomp) { I18n.t(:create) }
         expect(current_subject).to receive(:create)
       end
 
       it 'load account if input is load' do
-        allow(current_subject).to receive_message_chain(:gets, :chomp) { 'load' }
+        allow(current_subject).to receive_message_chain(:gets, :chomp) { I18n.t(:load) }
         expect(current_subject).to receive(:load)
       end
 
       it 'leave app if input is exit or some another word' do
-        allow(current_subject).to receive_message_chain(:gets, :chomp) { 'another' }
+        allow(current_subject).to receive_message_chain(:gets, :chomp) { I18n.t(:another) }
         expect(current_subject).to receive(:exit)
       end
     end
 
     context 'with correct outout' do
       it do
-        allow(current_subject).to receive_message_chain(:gets, :chomp) { 'test' }
+        allow(current_subject).to receive_message_chain(:gets, :chomp) { I18n.t(:test) }
         allow(current_subject).to receive(:exit)
         HELLO_PHRASES.each { |phrase| expect(current_subject).to receive(:puts).with(phrase) }
         current_subject.console

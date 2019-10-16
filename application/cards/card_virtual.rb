@@ -6,7 +6,7 @@ class CardVirtual < Card
   attr_accessor :number, :balance, :type
 
   def initialize
-    @type = 'virtual'
+    @type = I18n.t(:Virtual)
     @number = generate_number
     @balance = 150.00
   end
