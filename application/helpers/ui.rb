@@ -4,27 +4,26 @@ module UI
   YES = 'y'.freeze
 
   COMMANDS = {
-      create: I18n.t(:create),
-      load: I18n.t(:load),
-      show_cards: 'SC',
-      create_card: 'CC',
-      destroy_card: 'DC',
-      put_money: 'PM',
-      send_money: 'SM',
-      withdraw_money: 'WM',
-      destroy_account: 'DA'
+    create: I18n.t(:create),
+    load: I18n.t(:load),
+    show_cards: 'SC',
+    create_card: 'CC',
+    destroy_card: 'DC',
+    put_money: 'PM',
+    send_money: 'SM',
+    withdraw_money: 'WM',
+    destroy_account: 'DA'
   }.freeze
-
 
   def commands
     {
-        SC: proc { show_cards },
-        CC: proc { create_card },
-        DC: proc { destroy_card },
-        PM: proc { put_money },
-        WM: proc { withdraw_money },
-        SM: proc { send_money },
-        DA: proc { destroy_account; exit }
+      SC: proc { show_cards },
+      CC: proc { create_card },
+      DC: proc { destroy_card },
+      PM: proc { put_money },
+      WM: proc { withdraw_money },
+      SM: proc { send_money },
+      DA: proc { destroy_account; exit }
     }
   end
 
@@ -41,7 +40,6 @@ module UI
   def wrong_command
     puts I18n.t('ERROR.wrong_command')
   end
-
 
   def show_errors
     @errors.each { |error| puts error }

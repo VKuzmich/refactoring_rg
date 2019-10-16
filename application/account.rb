@@ -11,15 +11,10 @@ class Account
     @card = []
     @errors = []
     @file_path = PATH
-  end
-
-  def access?(credentials)
-    @login == credentials[:login] && @password == credentials[:password]
-  end
-
-
-  def equal?(other)
-    @login == other.login
+    @name = :name
+    @age = :age
+    @login = :login
+    @password = :password
   end
 
   def add_card(card)

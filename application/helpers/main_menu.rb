@@ -6,29 +6,23 @@ module MainMenu
   include UI
 
   def choose_card
-    loop do
-      message_of_card_choice
-      return unless show_cards_for_operations
-      exit_message
-      choice = gets.chomp
-      return if choice == I18n.t('exit')
-      return puts I18n.t('ERROR.wrong_number') unless answer_validation(choice)
-      return @account.current_account.card[choice.to_i - 1]
-    end
+    message_of_card_choice
+    return unless show_cards_for_operations
+    exit_message
+    return exit_or_wrong_number
   end
 
   def choose_recipient_card
-      entering_card_number
-      return puts I18n.t('enter_correct_number') unless entering_card_number.length == 16
-      correct_number_card(entering_card_number)
-      return puts "There is no card with number #{entering_card_number}\n" if correct_number_card(entering_card_number).nil?
-      return correct_number_card(entering_card_number)
+    entering_card_number
+    return puts I18n.t('enter_correct_number') unless entering_card_number.length == 16
+    correct_number_card(entering_card_number)
+    validate_correct_number
   end
 
   def amount_input
-      amount_input_message
-      return puts I18n.t('ERROR.correct_amount') unless amount_input_message.to_i.positive?
-      return amount_input_message
+    amount_input_message
+    return puts I18n.t('ERROR.correct_amount') unless amount_input_message.to_i.positive?
+    return amount_input_message
   end
 
   def login_input
@@ -42,6 +36,23 @@ module MainMenu
   end
 
   private
+
+  def validate_correct_number
+    return puts "There is no card with number #{entering_card_number}\n" if correct_number_card(entering_card_number).nil?
+    return correct_number_card(entering_card_number)
+  end
+
+  def want_to_exit
+    puts I18n.t('exit')
+    gets.chomp
+  end
+
+  def exit_or_wrong_number
+    choice = gets.chomp
+    return if choice == I18n.t('exit')
+    return puts I18n.t('ERROR.wrong_number') unless answer_validation(choice)
+    return @account.current_account.card[choice.to_i - 1]
+  end
 
   def amount_input_message
     puts I18n.t('input_the_amount')
