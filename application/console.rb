@@ -93,13 +93,11 @@ class Console
   def create_card
     loop do
       create_card_message
-      cardtype = gets.chomp
-      card = generate_card(cardtype)
+      card_type = gets.chomp
+      card = generate_card(card_type)
       return puts I18n.t(:WRONG_CARD_TYPE) if card.nil?
 
-      cards = @account.current_account.card << card
-      @account.current_account.card = cards
-      update_accounts(@account.current_account)
+      created_card(card)
       break
     end
   end
@@ -115,12 +113,10 @@ class Console
 
       return puts I18n.t('ERROR.wrong_number') unless answer_validation(choice)
 
-      puts "Are you sure you want to delete #{@account.current_account.card[choice.to_i - 1].number}?[y/n]"
-      confirmation = gets.chomp
+      confirmation = deleting_confirmation(choice)
       return unless confirmation == YES
 
-      @account.current_account.card.delete_at(choice.to_i - 1)
-      update_accounts(@account.current_account)
+      deleting_account(choice)
       break
     end
   end
@@ -155,27 +151,19 @@ class Console
   end
 
   def send_money
-    sender_card = choose_card
-    recipient_card = choose_recipient_card
+
+    recipient_card, sender_card = cards_for_transfers
 
     until sender_card.nil? || recipient_card.nil?
       amount = amount_input.to_i
       break if amount.zero?
 
-      sender_card.balance = sender_card.balance - amount - sender_card.sender_tax(amount)
-      recipient_card.balance = recipient_card.balance + amount - recipient_card.put_tax(amount)
+      sender_recipient_balances(amount, recipient_card, sender_card)
 
       return insufficient_funds unless sender_card.balance.positive? ||
           recipient_card.put_tax(amount) < amount
 
-      if card_present(recipient_card)
-        update_account_by_card(recipient_card, sender_card)
-      else
-        update_account_by_card(recipient_card)
-        update_account_by_card(sender_card)
-      end
-      send_money_sender_msg(amount, sender_card)
-      send_money_recipient_msg(amount, recipient_card)
+      updating_messages(amount, recipient_card, sender_card)
       break
     end
   end
@@ -197,6 +185,48 @@ class Console
   end
 
   private
+
+  def deleting_confirmation(choice)
+    puts "Are you sure you want to delete #{@account.current_account.card[choice.to_i - 1].number}?[y/n]"
+    confirmation = gets.chomp
+  end
+
+  def cards_for_transfers
+    sender_card = choose_card
+    recipient_card = choose_recipient_card
+    return recipient_card, sender_card
+  end
+
+  def updating_messages(amount, recipient_card, sender_card)
+    updating_account(recipient_card, sender_card)
+    send_money_sender_msg(amount, sender_card)
+    send_money_recipient_msg(amount, recipient_card)
+  end
+
+  def sender_recipient_balances(amount, recipient_card, sender_card)
+    sender_card.balance = sender_card.balance - amount - sender_card.sender_tax(amount)
+    recipient_card.balance = recipient_card.balance + amount - recipient_card.put_tax(amount)
+  end
+
+  def updating_account(recipient_card, sender_card)
+    if card_present(recipient_card)
+      update_account_by_card(recipient_card, sender_card)
+    else
+      update_account_by_card(recipient_card)
+      update_account_by_card(sender_card)
+    end
+  end
+
+  def deleting_account(choice)
+    @account.current_account.card.delete_at(choice.to_i - 1)
+    update_accounts(@account.current_account)
+  end
+
+  def created_card(card)
+    cards = @account.current_account.card << card
+    @account.current_account.card = cards
+    update_accounts(@account.current_account)
+  end
 
   def show_cards_for_operations
     return puts I18n.t('ERROR.no_active_cards') unless cards

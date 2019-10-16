@@ -116,4 +116,7 @@ module UI
          "Balance: #{current_card.balance}. Tax: #{current_card.put_tax(amount)}\n"
   end
 
+  def message_of_card_choice
+    puts I18n.t('Choose the card for your operation:')
+  end
 end

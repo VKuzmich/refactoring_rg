@@ -3,8 +3,6 @@
 module Validation
   POSITIVE_INFINITY = +1.0 / 0.0
 
-
-
   def name_validation(name)
     return if name != '' && name[0].upcase == name[0]
 

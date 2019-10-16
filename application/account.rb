@@ -12,4 +12,21 @@ class Account
     @errors = []
     @file_path = PATH
   end
+
+  def access?(credentials)
+    @login == credentials[:login] && @password == credentials[:password]
+  end
+
+
+  def equal?(other)
+    @login == other.login
+  end
+
+  def add_card(card)
+    @card << card
+  end
+
+  def delete_card(index)
+    @card.delete_at(index)
+  end
 end

@@ -7,41 +7,28 @@ module MainMenu
 
   def choose_card
     loop do
-      puts I18n.t('Choose the card for your operation:')
-      break unless show_cards_for_operations
-
+      message_of_card_choice
+      return unless show_cards_for_operations
       exit_message
       choice = gets.chomp
-      break if choice == 'exit'
+      return if choice == I18n.t('exit')
       return puts I18n.t('ERROR.wrong_number') unless answer_validation(choice)
-
       return @account.current_account.card[choice.to_i - 1]
     end
   end
 
   def choose_recipient_card
-    loop do
-      puts I18n.t(:enter_recipient_card)
-      card_number = gets.chomp
-      return puts I18n.t('enter_correct_number') unless card_number.length == 16
-
-      all_cards = accounts.map(&:card).flatten
-      recipient_card = all_cards.select { |card| card.number == card_number }.first
-      return puts "There is no card with number #{card_number}\n" if recipient_card.nil?
-
-      return recipient_card
-    end
+      entering_card_number
+      return puts I18n.t('enter_correct_number') unless entering_card_number.length == 16
+      correct_number_card(entering_card_number)
+      return puts "There is no card with number #{entering_card_number}\n" if correct_number_card(entering_card_number).nil?
+      return correct_number_card(entering_card_number)
   end
 
   def amount_input
-    loop do
-      puts I18n.t('input_the_amount')
-      amount = gets.chomp
-
-      return puts I18n.t('ERROR.correct_amount') unless amount.to_i.positive?
-
-      return amount
-    end
+      amount_input_message
+      return puts I18n.t('ERROR.correct_amount') unless amount_input_message.to_i.positive?
+      return amount_input_message
   end
 
   def login_input
@@ -52,5 +39,22 @@ module MainMenu
   def password_input
     puts I18n.t('ASK.password')
     gets.chomp
+  end
+
+  private
+
+  def amount_input_message
+    puts I18n.t('input_the_amount')
+    gets.chomp
+  end
+
+  def entering_card_number
+    puts I18n.t(:enter_recipient_card)
+    gets.chomp
+  end
+
+  def correct_number_card(card_number)
+    all_cards = accounts.map(&:card).flatten
+    all_cards.select { |card| card.number == card_number }.first
   end
 end
