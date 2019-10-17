@@ -28,6 +28,18 @@ Metrics/LineLength:
 Metricks/BlockNesting:
   Enabled: false
 
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/ClassLength:
+  Max: 220
+
 Documentation:
   Enabled: false
 
@@ -35,4 +47,5 @@ AllCops:
   Exclude:
   - 'bin/'
   - '*.gemspec'
+  - 'spec/**/*'
   TargetRubyVersion: 2.6.3-v

@@ -443,8 +443,8 @@ RSpec.describe Console do
 
   describe '#show_cards' do
     let(:account) { Account.new }
-    let(:usual_card) { current_subject.generate_card('usual') }
-    let(:virtual_card) { current_subject.generate_card('virtual') }
+    let(:usual_card) { current_subject.account.generate_card('usual') }
+    let(:virtual_card) { current_subject.account.generate_card('virtual') }
     let(:cards) { [usual_card, virtual_card] }
 
     it 'display cards if there are any' do
@@ -758,7 +758,7 @@ RSpec.describe Console do
                 # binding.pry
                 expect { current_subject.put_money }.to output(
                                                             /Money #{correct_money_amount_greater_than_tax} was put on #{custom_card.number}. Balance: #{new_balance}. Tax: #{custom_card.put_tax(correct_money_amount_greater_than_tax)}/
-                                                        ).to_stdout
+                                                          ).to_stdout
 
                 expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
                 file_accounts = YAML.load_file(OVERRIDABLE_FILENAME)

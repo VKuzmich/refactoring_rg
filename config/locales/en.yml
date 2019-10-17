@@ -72,7 +72,7 @@ en:
 
   no_active_account_yet: "there are no active accounts, type 'y' if you want to create one"
 
-  press_exit: "press `exit` to exit\n"
+  press_exit: "enter `exit` to exit\n"
 
   Greetings:
     greetings: 'hello, we are RubyG bank!'

@@ -5,10 +5,10 @@ require_relative 'dependencies'
 class Console
   include MainMenu
   include WithAccount
-  include WithCard
   include UserInfo
   include Database
   include UI
+  include Validation
 
   attr_accessor :account
 
@@ -26,15 +26,14 @@ class Console
 
   def create
     loop do
-      user_info
+      user_inputs
       break if valid?
 
       errors_messages
       @account.errors = []
     end
-    created_new_account
+    new_account_created
   end
-
 
   def load
     loop do
@@ -74,13 +73,19 @@ class Console
 
   def show_cards
     return puts I18n.t('ERROR.no_active_cards') unless cards
+
     show_active_card
   end
 
   def create_card
-    card = generate_card(choose_type_card)
+    card = @account.generate_card(choose_type_card)
     return puts I18n.t(:WRONG_CARD_TYPE) if card.nil?
+
     created_card(card)
+  end
+
+  def cards
+    @account.current_account.card.any?
   end
 
   def destroy_card
@@ -96,7 +101,7 @@ class Console
     return unless deleting_confirmation(after_entering_exit) == YES
 
     deleting_account(after_entering_exit)
-end
+  end
 
   def put_money
     current_card = choose_card
@@ -111,7 +116,6 @@ end
   end
 
   def withdraw_money
-
     return if choose_card.nil?
 
     return if amount_input.to_i.zero?
@@ -122,7 +126,6 @@ end
   end
 
   def send_money
-
     return if cards_for_transfers.nil?
 
     return if amount_input.to_i.zero?
@@ -135,12 +138,9 @@ end
   end
 
   def destroy_account
-    answer = message_before_destroying
-    return unless answer == YES
+    return unless message_before_destroying == YES
 
-    new_accounts = []
-    before_destroying(new_accounts)
-    write_to_file(new_accounts)
+    destroying_process
   end
 
   def run
@@ -148,6 +148,12 @@ end
   end
 
   private
+
+  def destroying_process
+    new_accounts = []
+    before_destroying(new_accounts)
+    write_to_file(new_accounts)
+  end
 
   def checking_login(login)
     @account.current_account = accounts.select { |account| login == account.login }.first
@@ -175,16 +181,15 @@ end
     gets.chomp
   end
 
-  def created_new_account
-    new_accounts = accounts << @account
+  def new_account_created
     @account.current_account = @account
-    write_to_file(new_accounts)
+    write_to_file(accounts << @account)
     main_menu
   end
 
   def allow_to_send(recipient_card, sender_card)
     sender_card.balance.positive? ||
-        recipient_card.put_tax(amount_input.to_i) < amount_input.to_i
+      recipient_card.put_tax(amount_input.to_i) < amount_input.to_i
   end
 
   def update_and_message(amount, current_card)
@@ -241,6 +246,7 @@ end
 
   def updating_account(recipient_card, sender_card)
     return update_account_by_card(recipient_card, sender_card) if card_present(recipient_card)
+
     update_account_by_card(recipient_card)
     update_account_by_card(sender_card)
   end

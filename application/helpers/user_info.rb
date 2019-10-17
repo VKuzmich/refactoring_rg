@@ -29,7 +29,7 @@ module UserInfo
     @account.age = age if valid?
   end
 
-  def user_info
+  def user_inputs
     user_name
     user_age
     user_login
@@ -54,7 +54,7 @@ module UserInfo
   end
 
   def enter_name
-    puts I18n.t("ASK.name")
+    puts I18n.t('ASK.name')
     gets.chomp
   end
 end

@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ruby Critic - Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- StyleSheets -->
+    <link href="../assets/stylesheets/bootstrap.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/stylesheets/font-awesome.min.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/stylesheets/prettify.custom_theme.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+    <link href="../assets/stylesheets/application.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <a href="#menu-toggle" class="btn btn-default hidden-lg visible-sm-* hidden-md visible-xs-* pull-left" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="../overview.html"><img src="../assets/images/logo.png" alt="Ruby Critic Logo" title="Ruby Critic Logo" width="55"><span class="logo">RUBYCRITIC</span></a>
+      
+    </header>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <aside id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../overview.html" class="project-nav-item overview-nav"><i class="fa fa-dashboard"></i>Overview</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../code_index.html" class="project-nav-item code-index-nav"><i class="fa fa-code"></i>Code</a>
+          </li>
+          <li class="sidebar-item">
+            <a href="../smells_index.html" class="project-nav-item smells-index-nav"><i class="fa fa-warning"></i>Smells</a>
+          </li>
+        </ul>
+      </aside>
+      <!-- /#sidebar-wrapper -->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+  <!--Page Title -->
+  <div class="Page_Title">
+    <div class="file-time">
+      <span class="committed-at">
+        
+          Updated <time class='js-timeago' datetime='2019-10-16 09:24:58 +0300'>2019-10-16 09:24:58 +0300</time>
+        
+      </span>
+    </div>
+    <div>
+      <h3><small>spec /</small> account_spec.rb</h3>
+    </div>
+  </div>
+  <!--End Page Title -->
+  <div class="Content_Wrapper">
+    <!-- code detail -->
+    <div class="code-top-detail clearfix row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="rating f big">
+              F
+            </div>
+          </div>
+          <div class="code-statistics col-md-11">
+            <div class="col-md-3">
+              <div><span class="metric">863</span><small> lines of codes</small></div>
+              <div><span class="metric">0</span><small> methods</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">N/A</span><small> complexity/method</small></div>
+              <div><span class="metric">8</span><small> churn</small></div>
+            </div>
+            <div class="col-md-3">
+              <div><span class="metric">2690.51</span><small> complexity</small></div>
+              <div><span class="metric">1074</span><small> duplications</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="code-tabs">
+          <ul class="nav nav-pills right-to-left">
+            <li><a href="#" id="toggle-code" class="toggle-button button">code</a></li>
+            <li class="active">
+              <a href="#" id="toggle-smells" class="toggle-button button">
+                52
+                smells
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <code class="prettyprint linenums lang-ruby file-code js-file-code"># frozen_string_literal: true
+
+require_relative &#39;../application/dependencies&#39;
+
+RSpec.describe Console do
+  OVERRIDABLE_FILENAME = &#39;spec/fixtures/account.yml&#39;.freeze
+
+  COMMON_PHRASES = {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L8" class="js-smell-location">0</a>                  <a href="account_spec.html#L67" class="js-smell-location">1</a>                  </div>  </li></ol>
+      create_first_account: &quot;there are no active accounts, type &#39;y&#39; if you want to create one\n&quot;,
+      destroy_account: &quot;Are you sure you want to destroy account?[y/n]\n&quot;,
+      if_you_want_to_delete: &#39;If you want to delete:&#39;,
+      choose_card: &#39;Choose the card for your operation:&#39;,
+      choose_card_withdrawing: &#39;Choose the card for your operation:&#39;,
+      input_amount: &#39;Input the amount&#39;,
+      withdraw_amount: &#39;Input the amount&#39;
+  }.freeze
+
+  HELLO_PHRASES = [
+    &#39;hello, we are RubyG bank!&#39;,
+    &#39;- If you want to create account - enter `create`&#39;,
+    &#39;- If you want to load account - enter `load`&#39;,
+    &#39;- If you want to exit - enter `exit`&#39;
+  ].freeze
+
+  ASK_PHRASES = {
+    name: &#39;Enter your name&#39;,
+    login: &#39;Enter your login&#39;,
+    password: &#39;Enter your password&#39;,
+    age: &#39;Enter your age&#39;
+  }.freeze
+
+  # rubocop: disable Metrics/LineLength
+
+  CREATE_CARD_PHRASES = [
+      &#39;You could create one of 3 card types&#39;,
+      &#39;- Usual card. 2% tax on card INCOME. 20$ tax on SENDING money from this card.&#39;,
+      &#39;5% tax on WITHDRAWING money. For creation this card - enter `usual`&#39;,
+      &#39;- Capitalist card. 10$ tax on card INCOME. 10% tax on SENDING money from this card.&#39;,
+      &#39;4$ tax on WITHDRAWING money. For creation this card - enter `capitalist`&#39;,
+      &#39;- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card.&#39;,
+      &#39;12% tax on WITHDRAWING money. For creation this card - enter `virtual`&#39;,
+      &#39;- For exit - enter `exit`&#39;
+  ].freeze
+
+  # rubocop:enable Metrics/LineLength
+
+  ACCOUNT_VALIDATION_PHRASES = {
+    name: {
+      first_letter: &#39;Your name must not be empty and starts with first upcase letter&#39;
+    },
+    login: {
+      present: &#39;Login must present&#39;,
+      longer: &#39;Login must be longer then 4 symbols&#39;,
+      shorter: &#39;Login must be shorter then 20 symbols&#39;,
+      exists: &#39;Such account is already exists&#39;
+    },
+    password: {
+      present: &#39;Password must present&#39;,
+      longer: &#39;Password must be longer then 6 symbols&#39;,
+      shorter: &#39;Password must be shorter then 30 symbols&#39;
+    },
+    age: {
+      length: &#39;Your Age must be greeter then 23 and lower then 90&#39;
+    }
+  }.freeze
+
+  ERROR_PHRASES = {<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L8" class="js-smell-location">0</a>                  <a href="account_spec.html#L67" class="js-smell-location">1</a>                  </div>  </li></ol>
+    user_not_exists: &#39;There is no account with given credentials&#39;,
+    wrong_command: &#39;Wrong command. Try again!&#39;,
+    no_active_cards: &quot;There is no active cards!\n&quot;,
+    wrong_card_type: &quot;Wrong card type. Try again!\n&quot;,
+    wrong_number: &quot;You entered wrong number!\n&quot;,
+    correct_amount: &#39;You must input correct amount of money&#39;,
+    tax_higher: &#39;Tax is higher than input amount&#39;
+  }.freeze
+
+  MAIN_OPERATIONS_TEXTS = [
+    &#39;If you want to:&#39;,
+    &#39;- show all cards - enter SC&#39;,
+    &#39;- create card - enter CC&#39;,
+    &#39;- destroy card - enter DC&#39;,
+    &#39;- put money on card - enter PM&#39;,
+    &#39;- withdraw money on card - enter WM&#39;,
+    &#39;- send money to another card  - enter SM&#39;,
+    &#39;- destroy account - enter DA&#39;,
+    &#39;- exit from account - enter exit&#39;
+  ].freeze
+
+  CARDS = {
+      usual: CardUsual.new,
+      capitalist: CardCapitalist.new,
+      virtual: CardVirtual.new
+  }.freeze
+
+  let(:current_subject) { described_class.new }
+
+  describe &#39;#console&#39; do
+    context &#39;when correct method calling&#39; do
+      after do
+        current_subject.console
+      end
+
+      it &#39;create account if input is create&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L103" class="js-smell-location">0</a>                  <a href="account_spec.html#L108" class="js-smell-location">1</a>                  <a href="account_spec.html#L113" class="js-smell-location">2</a>                  </div>  </li></ol>
+        allow(current_subject).to receive_message_chain(:gets, :chomp) { I18n.t(:create) }
+        expect(current_subject).to receive(:create)
+      end
+
+      it &#39;load account if input is load&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L103" class="js-smell-location">0</a>                  <a href="account_spec.html#L108" class="js-smell-location">1</a>                  <a href="account_spec.html#L113" class="js-smell-location">2</a>                  </div>  </li></ol>
+        allow(current_subject).to receive_message_chain(:gets, :chomp) { I18n.t(:load) }
+        expect(current_subject).to receive(:load)
+      end
+
+      it &#39;leave app if input is exit or some another word&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L103" class="js-smell-location">0</a>                  <a href="account_spec.html#L108" class="js-smell-location">1</a>                  <a href="account_spec.html#L113" class="js-smell-location">2</a>                  </div>  </li></ol>
+        allow(current_subject).to receive_message_chain(:gets, :chomp) { I18n.t(:another) }
+        expect(current_subject).to receive(:exit)
+      end
+    end
+
+    context &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#console)::context#with correct outout has a flog score of 34</span>          </div>  </li></ol>
+      it do
+        allow(current_subject).to receive_message_chain(:gets, :chomp) { I18n.t(:test) }
+        allow(current_subject).to receive(:exit)
+        HELLO_PHRASES.each { |phrase| expect(current_subject).to receive(:puts).with(phrase) }
+        current_subject.console
+      end
+    end
+  end
+
+  describe &#39;#create&#39; do
+    let(:account) { Account.new }
+    let(:success_name_input) { &#39;Denis&#39; }
+    let(:success_age_input) { &#39;72&#39; }
+    let(:success_login_input) { &#39;Denis&#39; }
+    let(:success_password_input) { &#39;Denis1993&#39; }
+    let(:success_inputs) { [success_name_input, success_age_input, success_login_input, success_password_input] }
+
+    context &#39;with success result&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#create)::context#with success result has a flog score of 37</span>          </div>  </li></ol>
+      before do
+        allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*success_inputs)
+        allow(current_subject).to receive(:main_menu)
+        allow(current_subject).to receive(:accounts).and_return([])
+      end
+
+      after do
+        File.delete(OVERRIDABLE_FILENAME) if File.exist?(OVERRIDABLE_FILENAME)
+      end
+
+      it &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#create)::context(with success result)::it#with correct outout has a flog score of 42</span>          </div>  </li></ol>
+        allow(File).to receive(:open)
+        ASK_PHRASES.values.each { |phrase| expect(current_subject).to receive(:puts).with(phrase) }
+        ACCOUNT_VALIDATION_PHRASES.values.map(&amp;:values).each do |phrase|
+          expect(current_subject).not_to receive(:puts).with(phrase)
+        end
+        current_subject.create
+      end
+
+      it &#39;write to file Account instance&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#create)::context(with success result)::it#write to file Account instance has a flog score of 42</span>          </div>  </li></ol>
+        current_subject.instance_variable_set(:@account, account)
+        account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
+        current_subject.create
+        expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
+        accounts = YAML.load_file(OVERRIDABLE_FILENAME)
+        expect(accounts).to be_a Array
+        expect(accounts.size).to be 1
+        accounts.map { |account| expect(account).to be_a Account }
+      end
+    end
+
+    context &#39;with errors&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#create)::context#with errors has a flog score of 41</span>          </div>  </li></ol>
+      before do
+        all_inputs = current_inputs + success_inputs
+        allow(File).to receive(:open)
+        allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*all_inputs)
+        allow(current_subject).to receive(:main_menu)
+        allow(current_subject).to receive(:accounts).and_return([])
+      end
+
+      context &#39;with name errors&#39; do
+        context &#39;without small letter&#39; do
+          let(:error_input) { &#39;some_test_name&#39; }
+          let(:error) { ACCOUNT_VALIDATION_PHRASES[:name][:first_letter] }
+          let(:current_inputs) { [error_input, success_age_input, success_login_input, success_password_input] }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+      end
+
+      context &#39;with login errors&#39; do
+        let(:current_inputs) { [success_name_input, success_age_input, error_input, success_password_input] }
+
+        context &#39;when present&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L191" class="js-smell-location">0</a>                  <a href="account_spec.html#L244" class="js-smell-location">1</a>                  </div>  </li></ol>
+          let(:error_input) { &#39;&#39; }
+          let(:error) { ACCOUNT_VALIDATION_PHRASES[:login][:present] }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+
+        context &#39;when longer&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L198" class="js-smell-location">0</a>                  <a href="account_spec.html#L205" class="js-smell-location">1</a>                  <a href="account_spec.html#L251" class="js-smell-location">2</a>                  <a href="account_spec.html#L258" class="js-smell-location">3</a>                  </div>  </li></ol>
+          let(:error_input) { &#39;E&#39; * 3 }
+          let(:error) { ACCOUNT_VALIDATION_PHRASES[:login][:longer] }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+
+        context &#39;when shorter&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L198" class="js-smell-location">0</a>                  <a href="account_spec.html#L205" class="js-smell-location">1</a>                  <a href="account_spec.html#L251" class="js-smell-location">2</a>                  <a href="account_spec.html#L258" class="js-smell-location">3</a>                  </div>  </li></ol>
+          let(:error_input) { &#39;E&#39; * 21 }
+          let(:error) { ACCOUNT_VALIDATION_PHRASES[:login][:shorter] }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+
+        context &#39;when exists&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#create)::context(with errors)::context(with login errors)::context#when exists has a flog score of 33</span>          </div>  </li></ol>
+          let(:error_input) { &#39;Denis1345&#39; }
+          let(:error) { ACCOUNT_VALIDATION_PHRASES[:login][:exists] }
+
+          before do
+            allow(current_subject).to receive(:accounts) { [instance_double(&#39;Account&#39;, login: error_input)] }
+          end
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+      end
+
+      context &#39;with age errors&#39; do
+        let(:current_inputs) { [success_name_input, error_input, success_login_input, success_password_input] }
+        let(:error) { ACCOUNT_VALIDATION_PHRASES[:age][:length] }
+
+        context &#39;with length minimum&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L228" class="js-smell-location">0</a>                  <a href="account_spec.html#L234" class="js-smell-location">1</a>                  </div>  </li></ol>
+          let(:error_input) { &#39;22&#39; }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+
+        context &#39;with length maximum&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L228" class="js-smell-location">0</a>                  <a href="account_spec.html#L234" class="js-smell-location">1</a>                  </div>  </li></ol>
+          let(:error_input) { &#39;91&#39; }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+      end
+
+      context &#39;with password errors&#39; do
+        let(:current_inputs) { [success_name_input, success_age_input, success_login_input, error_input] }
+
+        context &#39;when absent&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L191" class="js-smell-location">0</a>                  <a href="account_spec.html#L244" class="js-smell-location">1</a>                  </div>  </li></ol>
+          let(:error_input) { &#39;&#39; }
+          let(:error) { ACCOUNT_VALIDATION_PHRASES[:password][:present] }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+
+        context &#39;when longer&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L198" class="js-smell-location">0</a>                  <a href="account_spec.html#L205" class="js-smell-location">1</a>                  <a href="account_spec.html#L251" class="js-smell-location">2</a>                  <a href="account_spec.html#L258" class="js-smell-location">3</a>                  </div>  </li></ol>
+          let(:error_input) { &#39;E&#39; * 5 }
+          let(:error) { ACCOUNT_VALIDATION_PHRASES[:password][:longer] }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+
+        context &#39;when shorter&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L198" class="js-smell-location">0</a>                  <a href="account_spec.html#L205" class="js-smell-location">1</a>                  <a href="account_spec.html#L251" class="js-smell-location">2</a>                  <a href="account_spec.html#L258" class="js-smell-location">3</a>                  </div>  </li></ol>
+          let(:error_input) { &#39;E&#39; * 31 }
+          let(:error) { ACCOUNT_VALIDATION_PHRASES[:password][:shorter] }
+
+          it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
+        end
+      end
+    end
+  end
+
+  describe &#39;#load&#39; do
+    context &#39;without active accounts&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#load)::context#without active accounts has a flog score of 25</span>          </div>  </li></ol>
+      it do
+        expect(current_subject).to receive(:accounts).and_return([])
+        expect(current_subject).to receive(:create_the_first_account).and_return([])
+        current_subject.load
+      end
+    end
+
+    context &#39;with active accounts&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#load)::context#with active accounts has a flog score of 29</span>          </div>  </li></ol>
+      let(:login) { &#39;Johnny&#39; }
+      let(:password) { &#39;johnny1&#39; }
+
+      before do
+        allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*all_inputs)
+        allow(current_subject).to receive(:accounts) { [instance_double(&#39;Account&#39;, login: login, password: password)] }
+      end
+
+      context &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#load)::context(with active accounts)::context#with correct outout has a flog score of 32</span>          </div>  </li></ol>
+        let(:all_inputs) { [login, password] }
+
+        it do
+          expect(current_subject).to receive(:main_menu)
+          [ASK_PHRASES[:login], ASK_PHRASES[:password]].each do |phrase|
+            expect(current_subject).to receive(:puts).with(phrase)
+          end
+          current_subject.load
+        end
+      end
+
+      context &#39;when account exists&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#load)::context(with active accounts)::context#when account exists has a flog score of 26</span>          </div>  </li></ol>
+        let(:all_inputs) { [login, password] }
+
+        it do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L301" class="js-smell-location">0</a>                  <a href="account_spec.html#L310" class="js-smell-location">1</a>                  </div>  </li></ol>
+          expect(current_subject).to receive(:main_menu)
+          expect { current_subject.load }.not_to output(/#{ERROR_PHRASES[:user_not_exists]}/).to_stdout
+        end
+      end
+
+      context &#39;when account doesn\t exists&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#load)::context(with active accounts)::context#when account doesn\t exists has a flog score of 26</span>          </div>  </li></ol>
+        let(:all_inputs) { [&#39;test&#39;, &#39;test&#39;, login, password] }
+
+        it do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L301" class="js-smell-location">0</a>                  <a href="account_spec.html#L310" class="js-smell-location">1</a>                  </div>  </li></ol>
+          expect(current_subject).to receive(:main_menu)
+          expect { current_subject.load }.to output(/#{ERROR_PHRASES[:user_not_exists]}/).to_stdout
+        end
+      end
+    end
+  end
+
+  describe &#39;#create_the_first_account&#39; do
+    let(:cancel_input) { &#39;sdfsdfs&#39; }
+    let(:success_input) { &#39;y&#39; }
+
+    it &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#create_the_first_account)::it#with correct outout has a flog score of 28</span>          </div>  </li></ol>
+      expect(current_subject).to receive_message_chain(:gets, :chomp) {}
+      expect(current_subject).to receive(:console)
+      expect { current_subject.create_the_first_account }.to output(COMMON_PHRASES[:create_first_account]).to_stdout
+    end
+
+    it &#39;calls create if user inputs is y&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L328" class="js-smell-location">0</a>                  <a href="account_spec.html#L334" class="js-smell-location">1</a>                  </div>  </li></ol>
+      expect(current_subject).to receive_message_chain(:gets, :chomp) { success_input }
+      expect(current_subject).to receive(:create)
+      current_subject.create_the_first_account
+    end
+
+    it &#39;calls console if user inputs is not y&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L328" class="js-smell-location">0</a>                  <a href="account_spec.html#L334" class="js-smell-location">1</a>                  </div>  </li></ol>
+      expect(current_subject).to receive_message_chain(:gets, :chomp) { cancel_input }
+      expect(current_subject).to receive(:console)
+      current_subject.create_the_first_account
+    end
+  end
+
+  describe &#39;#main_menu&#39; do
+    let(:account) { Account.new }
+    let(:name) { &#39;John&#39; }
+    let(:commands) do
+      {
+        &#39;SC&#39; =&gt; :show_cards,
+        &#39;CC&#39; =&gt; :create_card,
+        &#39;DC&#39; =&gt; :destroy_card,
+        &#39;PM&#39; =&gt; :put_money,
+        &#39;WM&#39; =&gt; :withdraw_money,
+        &#39;SM&#39; =&gt; :send_money,
+        &#39;DA&#39; =&gt; :destroy_account,
+        &#39;exit&#39; =&gt; :exit
+      }
+    end
+
+    context &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#main_menu)::context#with correct outout has a flog score of 77</span>          </div>  </li></ol>
+      it do
+        allow(current_subject).to receive(:show_cards)
+        allow(current_subject).to receive(:exit)
+        allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(&#39;SC&#39;, &#39;exit&#39;)
+        account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, name: name))
+        current_subject.instance_variable_set(:@account, account)
+        expect { current_subject.main_menu }.to output(/Welcome, #{name}/).to_stdout
+        MAIN_OPERATIONS_TEXTS.each do |text|
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(&#39;SC&#39;, &#39;exit&#39;)
+          expect { current_subject.main_menu }.to output(/#{text}/).to_stdout
+        end
+      end
+    end
+
+    context &#39;when commands used&#39; do
+      let(:undefined_command) { &#39;undefined&#39; }
+
+      it &#39;calls specific methods on predefined commands&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#main_menu)::context(when commands used)::it#calls specific methods on predefined commands has a flog score of 47</span>          </div>  </li></ol>
+        account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, name: name))
+        current_subject.instance_variable_set(:@account, account)
+        allow(current_subject).to receive(:exit)
+
+        commands.each do |command, method_name|
+          expect(current_subject).to receive(method_name)
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(command, &#39;exit&#39;)
+          current_subject.main_menu
+        end
+      end
+
+      it &#39;outputs incorrect message on undefined command&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#main_menu)::context(when commands used)::it#outputs incorrect message on undefined command has a flog score of 46</span>          </div>  </li></ol>
+        account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, name: name))
+        current_subject.instance_variable_set(:@account, account)
+        expect(current_subject).to receive(:exit)
+        allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(undefined_command, &#39;exit&#39;)
+        expect { current_subject.main_menu }.to output(/#{ERROR_PHRASES[:wrong_command]}/).to_stdout
+      end
+    end
+  end
+
+  describe &#39;#destroy_account&#39; do
+    let(:account) { Account.new }
+    let(:cancel_input) { &#39;sdfsdfs&#39; }
+    let(:success_input) { &#39;y&#39; }
+    let(:correct_login) { &#39;test&#39; }
+    let(:fake_login) { &#39;test1&#39; }
+    let(:fake_login2) { &#39;test2&#39; }
+    let(:correct_account) { instance_double(&#39;Account&#39;, login: correct_login) }
+    let(:fake_account) { instance_double(&#39;Account&#39;, login: fake_login) }
+    let(:fake_account2) { instance_double(&#39;Account&#39;, login: fake_login2) }
+    let(:accounts) { [correct_account, fake_account, fake_account2] }
+
+    after do
+      File.delete(OVERRIDABLE_FILENAME) if File.exist?(OVERRIDABLE_FILENAME)
+    end
+
+    it &#39;with correct outout&#39; do
+      expect(current_subject).to receive_message_chain(:gets, :chomp) {}
+      expect { current_subject.destroy_account }.to output(COMMON_PHRASES[:destroy_account]).to_stdout
+    end
+
+    context &#39;when deleting&#39; do
+      it &#39;deletes account if user inputs is y&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#destroy_account)::context(when deleting)::it#deletes account if user inputs is y has a flog score of 61</span>          </div>  </li></ol>
+        expect(current_subject).to receive_message_chain(:gets, :chomp) { success_input }
+        expect(current_subject).to receive(:accounts) { accounts }
+        account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
+        account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, login: correct_login))
+        current_subject.instance_variable_set(:@account, account)
+
+        current_subject.destroy_account
+
+        expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
+        file_accounts = YAML.load_file(OVERRIDABLE_FILENAME)
+        expect(file_accounts).to be_a Array
+        expect(file_accounts.size).to be 2
+      end
+
+      it &#39;doesnt delete account&#39; do
+        expect(current_subject).to receive_message_chain(:gets, :chomp) { cancel_input }
+
+        current_subject.destroy_account
+
+        expect(File.exist?(OVERRIDABLE_FILENAME)).to be false
+      end
+    end
+  end
+
+  describe &#39;#show_cards&#39; do
+    let(:account) { Account.new }
+    let(:usual_card) { current_subject.account.generate_card(&#39;usual&#39;) }
+    let(:virtual_card) { current_subject.account.generate_card(&#39;virtual&#39;) }
+    let(:cards) { [usual_card, virtual_card] }
+
+    it &#39;display cards if there are any&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#show_cards)::it#display cards if there are any has a flog score of 39</span>          </div>  </li></ol>
+      usual_card.instance_variable_set(:@number, &#39;1234&#39;)
+      virtual_card.instance_variable_set(:@number, &#39;1234&#39;)
+      account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, card: cards))
+      current_subject.instance_variable_set(:@account, account)
+      cards.each { |card| expect(current_subject).to receive(:puts).with(&quot;- #{card.number}, #{card.type}&quot;) }
+      current_subject.show_cards
+    end
+
+    it &#39;outputs error if there are no active cards&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#show_cards)::it#outputs error if there are no active cards has a flog score of 25</span>          </div>  </li></ol>
+      account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, card: []))
+      current_subject.instance_variable_set(:@account, account)
+      expect(current_subject).to receive(:puts).with(ERROR_PHRASES[:no_active_cards])
+      current_subject.show_cards
+    end
+  end
+
+  describe &#39;#create_card&#39; do
+    let(:account) { Account.new }
+
+    context &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#create_card)::context#with correct outout has a flog score of 53</span>          </div>  </li></ol>
+      it do
+        CREATE_CARD_PHRASES.each { |phrase| expect(current_subject).to receive(:puts).with(phrase) }
+        account.instance_variable_set(:@card, [])
+        account.instance_variable_set(:@current_account, account)
+        current_subject.instance_variable_set(:@account, account)
+        allow(current_subject).to receive(:accounts).and_return([])
+        allow(File).to receive(:open)
+        expect(current_subject).to receive_message_chain(:gets, :chomp) { &#39;usual&#39; }
+
+        current_subject.create_card
+      end
+    end
+
+    context &#39;when correct card choose&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#create_card)::context#when correct card choose has a flog score of 124</span>          </div>  </li></ol>
+      before do
+        allow(account).to receive(:card).and_return([])
+        allow(current_subject).to receive(:accounts) { [account] }
+        account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
+        account.instance_variable_set(:@current_account, account)
+        current_subject.instance_variable_set(:@account, account)
+      end
+
+      after do
+        File.delete(OVERRIDABLE_FILENAME) if File.exist?(OVERRIDABLE_FILENAME)
+      end
+
+      CARDS.each do |card_type, card_info|
+        it &quot;create card with #{card_type} type&quot; do
+          expect(current_subject).to receive_message_chain(:gets, :chomp) { card_info.type }
+
+          current_subject.create_card
+
+          expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
+          file_accounts = YAML.load_file(OVERRIDABLE_FILENAME)
+          expect(file_accounts.first.card.first.type).to eq card_info.type
+          expect(file_accounts.first.card.first.balance).to eq card_info.balance
+          expect(file_accounts.first.card.first.number.length).to be 16
+        end
+      end
+    end
+
+    context &#39;when incorrect card choose&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#create_card)::context#when incorrect card choose has a flog score of 49</span>          </div>  </li></ol>
+      it do
+        current_subject.instance_variable_set(:@card, [])
+        current_subject.instance_variable_set(:@current_account, current_subject)
+        allow(File).to receive(:open)
+        allow(current_subject).to receive(:accounts).and_return([])
+        allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(&#39;test&#39;, &#39;usual&#39;)
+
+        expect { current_subject.create_card }.to output(/#{ERROR_PHRASES[:wrong_card_type]}/).to_stdout
+      end
+    end
+  end
+
+  describe &#39;#destroy_card&#39; do
+    context &#39;without cards&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L526" class="js-smell-location">0</a>                  <a href="account_spec.html#L625" class="js-smell-location">1</a>                  <a href="account_spec.html#L775" class="js-smell-location">2</a>                  </div>  </li></ol>
+      let(:account) { Account.new }
+
+      it &#39;shows message about not active cards&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#destroy_card)::context(without cards)::it#shows message about not active cards has a flog score of 25</span>          </div>  </li></ol>
+        account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, card: []))
+        current_subject.instance_variable_set(:@account, account)
+        expect { current_subject.destroy_card }.to output(/#{ERROR_PHRASES[:no_active_cards]}/).to_stdout
+      end
+    end
+
+    context &#39;with cards&#39; do
+      let(:account) { Account.new }
+      let(:card_one) { CardUsual.new }
+      let(:card_two) { CardVirtual.new }
+      let(:fake_cards) { [card_one, card_two] }
+
+      context &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L542" class="js-smell-location">0</a>                  <a href="account_spec.html#L641" class="js-smell-location">1</a>                  <a href="account_spec.html#L791" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#destroy_card)::context(with cards)::context#with correct outout has a flog score of 73</span>          </div>  </li></ol>
+        it do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+          allow(current_subject).to receive_message_chain(:gets, :chomp) { &#39;exit&#39; }
+          expect { current_subject.destroy_card }.to output(/#{COMMON_PHRASES[:if_you_want_to_delete]}/).to_stdout
+          fake_cards.each_with_index do |card, i|
+            message = /- #{card.number}, #{card.type}, press #{i + 1}/
+            expect { current_subject.destroy_card }.to output(message).to_stdout
+          end
+          current_subject.destroy_card
+        end
+      end
+
+      context &#39;when exit if first gets is exit&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L557" class="js-smell-location">0</a>                  <a href="account_spec.html#L806" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#destroy_card)::context(with cards)::context#when exit if first gets is exit has a flog score of 35</span>          </div>  </li></ol>
+        it do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+          expect(current_subject).to receive_message_chain(:gets, :chomp) { &#39;exit&#39; }
+          current_subject.destroy_card
+        end
+      end
+
+      context &#39;with incorrect input of card number&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L567" class="js-smell-location">0</a>                  <a href="account_spec.html#L816" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#destroy_card)::context(with cards)::context#with incorrect input of card number has a flog score of 86</span>          </div>  </li></ol>
+        before do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+        end
+
+        it do
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(fake_cards.length + 1, &#39;exit&#39;)
+          expect { current_subject.destroy_card }.to output(/#{ERROR_PHRASES[:wrong_number]}/).to_stdout
+        end
+
+        it do
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(-1, &#39;exit&#39;)
+          expect { current_subject.destroy_card }.to output(/#{ERROR_PHRASES[:wrong_number]}/).to_stdout
+        end
+      end
+
+      context &#39;with correct input of card number&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#destroy_card)::context(with cards)::context#with correct input of card number has a flog score of 40</span>          </div>  </li></ol>
+        let(:account) { Account.new }
+        let(:accept_for_deleting) { &#39;y&#39; }
+        let(:reject_for_deleting) { &#39;asdf&#39; }
+        let(:deletable_card_number) { 1 }
+
+        before do
+          account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
+          account.instance_variable_set(:@card, fake_cards)
+          allow(current_subject).to receive(:accounts) { [account] }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+        end
+
+        after do
+          File.delete(OVERRIDABLE_FILENAME) if File.exist?(OVERRIDABLE_FILENAME)
+        end
+
+        it &#39;accept deleting&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#destroy_card)::context(with cards)::context(with correct input of card number)::it#accept deleting has a flog score of 60</span>          </div>  </li></ol>
+          commands = [deletable_card_number, accept_for_deleting]
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*commands)
+
+          expect { current_subject.destroy_card }.to change { current_subject.account.card.size }.by(-1)
+
+          expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
+          file_accounts = YAML.load_file(OVERRIDABLE_FILENAME)
+          expect(file_accounts.first.card).not_to include(card_one)
+        end
+
+        it &#39;decline deleting&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#destroy_card)::context(with cards)::context(with correct input of card number)::it#decline deleting has a flog score of 31</span>          </div>  </li></ol>
+          commands = [deletable_card_number, reject_for_deleting]
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*commands)
+
+          expect { current_subject.destroy_card }.not_to change(current_subject.account.card, :size)
+        end
+      end
+    end
+  end
+
+  describe &#39;#put_money&#39; do
+    context &#39;without cards&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L526" class="js-smell-location">0</a>                  <a href="account_spec.html#L625" class="js-smell-location">1</a>                  <a href="account_spec.html#L775" class="js-smell-location">2</a>                  </div>  </li></ol>
+      let(:account) { Account.new }
+
+      it &#39;shows message about not active cards&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#put_money)::context(without cards)::it#shows message about not active cards has a flog score of 25</span>          </div>  </li></ol>
+        account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, card: []))
+        current_subject.instance_variable_set(:@account, account)
+        expect { current_subject.put_money }.to output(/#{ERROR_PHRASES[:no_active_cards]}/).to_stdout
+      end
+    end
+
+    context &#39;with cards&#39; do
+      let(:account) { Account.new }
+      let(:card_one) { CardUsual.new }
+      let(:card_two) { CardVirtual.new }
+      let(:fake_cards) { [card_one, card_two] }
+
+      context &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L542" class="js-smell-location">0</a>                  <a href="account_spec.html#L641" class="js-smell-location">1</a>                  <a href="account_spec.html#L791" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#put_money)::context(with cards)::context#with correct outout has a flog score of 73</span>          </div>  </li></ol>
+        it do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+          allow(current_subject).to receive_message_chain(:gets, :chomp) { &#39;exit&#39; }
+          expect { current_subject.put_money }.to output(/#{COMMON_PHRASES[:choose_card]}/).to_stdout
+          fake_cards.each_with_index do |card, i|
+            message = /- #{card.number}, #{card.type}, press #{i + 1}/
+            expect { current_subject.put_money }.to output(message).to_stdout
+          end
+          current_subject.put_money
+        end
+      end
+
+      context &#39;when exit if first gets is exit&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#put_money)::context(with cards)::context#when exit if first gets is exit has a flog score of 37</span>          </div>  </li></ol>
+        let(:account) { Account.new }
+
+        it do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+          expect(current_subject).to receive_message_chain(:gets, :chomp) { &#39;exit&#39; }
+          current_subject.put_money
+        end
+      end
+
+      context &#39;with incorrect input of card number&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#put_money)::context(with cards)::context#with incorrect input of card number has a flog score of 86</span>          </div>  </li></ol>
+        let(:account) { Account.new }
+
+        before do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+        end
+
+        it do
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(fake_cards.length + 1, &#39;exit&#39;)
+          expect { current_subject.put_money }.to output(/#{ERROR_PHRASES[:wrong_number]}/).to_stdout
+        end
+
+        it do
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(-1, &#39;exit&#39;)
+          expect { current_subject.put_money }.to output(/#{ERROR_PHRASES[:wrong_number]}/).to_stdout
+        end
+      end
+
+      context &#39;with correct input of card number&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#put_money)::context(with cards)::context#with correct input of card number has a flog score of 41</span>          </div>  </li></ol>
+        let(:account) { Account.new }
+        let(:card_one) { CardCapitalist.new }
+        let(:card_two) { CardCapitalist.new }
+        let(:fake_cards) { [card_one, card_two] }
+        let(:chosen_card_number) { 1 }
+        let(:incorrect_money_amount) { -2 }
+        let(:default_balance) { 50.0 }
+        let(:correct_money_amount_lower_than_tax) { 5 }
+        let(:correct_money_amount_greater_than_tax) { 50 }
+
+        before do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L699" class="js-smell-location">0</a>                  <a href="account_spec.html#L844" class="js-smell-location">1</a>                  </div>  </li></ol>
+          card_one.instance_variable_set(:@balance, 50.0)
+          card_two.instance_variable_set(:@balance, 100.0)
+          account.instance_variable_set(:@card, fake_cards)
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*commands)
+        end
+
+        context &#39;with correct output&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L708" class="js-smell-location">0</a>                  <a href="account_spec.html#L716" class="js-smell-location">1</a>                  <a href="account_spec.html#L725" class="js-smell-location">2</a>                  <a href="account_spec.html#L853" class="js-smell-location">3</a>                  </div>  </li></ol>
+          let(:commands) { [chosen_card_number, incorrect_money_amount] }
+
+          it do
+            expect { current_subject.put_money }.to output(/#{COMMON_PHRASES[:input_amount]}/).to_stdout
+          end
+        end
+
+        context &#39;with amount lower then 0&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L708" class="js-smell-location">0</a>                  <a href="account_spec.html#L716" class="js-smell-location">1</a>                  <a href="account_spec.html#L725" class="js-smell-location">2</a>                  <a href="account_spec.html#L853" class="js-smell-location">3</a>                  </div>  </li></ol>
+          let(:commands) { [chosen_card_number, incorrect_money_amount] }
+
+          it do
+            expect { current_subject.put_money }.to output(/#{ERROR_PHRASES[:correct_amount]}/).to_stdout
+          end
+        end
+
+        context &#39;with amount greater then 0&#39; do
+          context &#39;with tax greater than amount&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L708" class="js-smell-location">0</a>                  <a href="account_spec.html#L716" class="js-smell-location">1</a>                  <a href="account_spec.html#L725" class="js-smell-location">2</a>                  <a href="account_spec.html#L853" class="js-smell-location">3</a>                  </div>  </li></ol>
+            let(:commands) { [chosen_card_number, correct_money_amount_lower_than_tax] }
+
+            it do
+              expect { current_subject.put_money }.to output(/#{ERROR_PHRASES[:tax_higher]}/).to_stdout
+            end
+          end
+
+          context &#39;with tax lower than amount&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#put_money)::context(with cards)::context(with correct input of card number)::context(with amount greater then 0)::context#with tax lower than amount has a flog score of 133</span>          </div>  </li></ol>
+            let(:account) { Account.new }
+            let(:custom_cards) do
+              [
+                  CardUsual.new,
+                  CardCapitalist.new,
+                  CardVirtual.new
+              ]
+            end
+
+            let(:commands) { [chosen_card_number, correct_money_amount_greater_than_tax] }
+
+            after do
+              File.delete(OVERRIDABLE_FILENAME) if File.exist?(OVERRIDABLE_FILENAME)
+            end
+
+            it do
+              custom_cards.each do |custom_card|
+                custom_card.instance_variable_set(:@balance, default_balance)
+                allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*commands)
+                allow(current_subject).to receive(:accounts) { [account] }
+                account.instance_variable_set(:@card, [custom_card, card_one, card_two])
+                account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
+                current_subject.instance_variable_set(:@account, account)
+                new_balance = default_balance + correct_money_amount_greater_than_tax - custom_card.put_tax(correct_money_amount_greater_than_tax)
+                # binding.pry
+                expect { current_subject.put_money }.to output(
+                                                            /Money #{correct_money_amount_greater_than_tax} was put on #{custom_card.number}. Balance: #{new_balance}. Tax: #{custom_card.put_tax(correct_money_amount_greater_than_tax)}/
+                                                        ).to_stdout
+
+                expect(File.exist?(OVERRIDABLE_FILENAME)).to be true
+                file_accounts = YAML.load_file(OVERRIDABLE_FILENAME)
+                expect(file_accounts.first.card.first.balance).to eq(new_balance)
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  describe &#39;#withdraw_money&#39; do
+    context &#39;without cards&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L526" class="js-smell-location">0</a>                  <a href="account_spec.html#L625" class="js-smell-location">1</a>                  <a href="account_spec.html#L775" class="js-smell-location">2</a>                  </div>  </li></ol>
+      let(:account) { Account.new }
+
+      it &#39;shows message about not active cards&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#withdraw_money)::context(without cards)::it#shows message about not active cards has a flog score of 25</span>          </div>  </li></ol>
+        account.instance_variable_set(:@current_account, instance_double(&#39;Account&#39;, card: []))
+        current_subject.instance_variable_set(:@account, account)
+        expect { current_subject.withdraw_money }.to output(/#{ERROR_PHRASES[:no_active_cards]}/).to_stdout
+      end
+    end
+
+    context &#39;with cards&#39; do
+      let(:account) { Account.new }
+      let(:card_one) { CardUsual.new }
+      let(:card_two) { CardVirtual.new }
+      let(:fake_cards) { [card_one, card_two] }
+
+      context &#39;with correct outout&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 3 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L542" class="js-smell-location">0</a>                  <a href="account_spec.html#L641" class="js-smell-location">1</a>                  <a href="account_spec.html#L791" class="js-smell-location">2</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#withdraw_money)::context(with cards)::context#with correct outout has a flog score of 73</span>          </div>  </li></ol>
+        it do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+          allow(current_subject).to receive_message_chain(:gets, :chomp) { &#39;exit&#39; }
+          expect { current_subject.withdraw_money }.to output(/#{COMMON_PHRASES[:choose_card_withdrawing]}/).to_stdout
+          fake_cards.each_with_index do |card, i|
+            message = /- #{card.number}, #{card.type}, press #{i + 1}/
+            expect { current_subject.withdraw_money }.to output(message).to_stdout
+          end
+          current_subject.withdraw_money
+        end
+      end
+
+      context &#39;when exit if first gets is exit&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L557" class="js-smell-location">0</a>                  <a href="account_spec.html#L806" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#withdraw_money)::context(with cards)::context#when exit if first gets is exit has a flog score of 35</span>          </div>  </li></ol>
+        it do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+          expect(current_subject).to receive_message_chain(:gets, :chomp) { &#39;exit&#39; }
+          current_subject.withdraw_money
+        end
+      end
+
+      context &#39;with incorrect input of card number&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L567" class="js-smell-location">0</a>                  <a href="account_spec.html#L816" class="js-smell-location">1</a>                  </div>  </li>  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>VeryHighComplexity</b></a>        </span>      </div>      <span>describe(#withdraw_money)::context(with cards)::context#with incorrect input of card number has a flog score of 86</span>          </div>  </li></ol>
+        before do
+          allow(account).to receive(:card) { fake_cards }
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+        end
+
+        it do
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(fake_cards.length + 1, &#39;exit&#39;)
+          expect { current_subject.withdraw_money }.to output(/#{ERROR_PHRASES[:wrong_number]}/).to_stdout
+        end
+
+        it do
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(-1, &#39;exit&#39;)
+          expect { current_subject.withdraw_money }.to output(/#{ERROR_PHRASES[:wrong_number]}/).to_stdout
+        end
+      end
+
+      context &#39;with correct input of card number&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flog/" target="_blank"><b>HighComplexity</b></a>        </span>      </div>      <span>describe(#withdraw_money)::context(with cards)::context#with correct input of card number has a flog score of 41</span>          </div>  </li></ol>
+        let(:card_one) { CardCapitalist.new }
+        let(:card_two) { CardCapitalist.new }
+        let(:fake_cards) { [card_one, card_two] }
+        let(:chosen_card_number) { 1 }
+        let(:incorrect_money_amount) { -2 }
+        let(:default_balance) { 50.0 }
+        let(:correct_money_amount_lower_than_tax) { 5 }
+        let(:correct_money_amount_greater_than_tax) { 50 }
+
+        before do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Identical code found in 2 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L699" class="js-smell-location">0</a>                  <a href="account_spec.html#L844" class="js-smell-location">1</a>                  </div>  </li></ol>
+          card_one.instance_variable_set(:@balance, 50.0)
+          card_two.instance_variable_set(:@balance, 100.0)
+          account.instance_variable_set(:@card, fake_cards)
+          account.instance_variable_set(:@current_account, account)
+          current_subject.instance_variable_set(:@account, account)
+          allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*commands)
+        end
+
+        context &#39;with correct output&#39; do<ol class="nocode errors smells">  <li>    <div class="description">      <div class="heading">        <span>          <i class="fa fa-warning" aria-hidden="true"></i>          <a href="http://docs.seattlerb.org/flay/" target="_blank"><b>DuplicateCode</b></a>        </span>      </div>      <span>Similar code found in 4 nodes</span>              <span>Locations:</span>                  <a href="account_spec.html#L708" class="js-smell-location">0</a>                  <a href="account_spec.html#L716" class="js-smell-location">1</a>                  <a href="account_spec.html#L725" class="js-smell-location">2</a>                  <a href="account_spec.html#L853" class="js-smell-location">3</a>                  </div>  </li></ol>
+          let(:commands) { [chosen_card_number, incorrect_money_amount] }
+
+          it do
+            expect { current_subject.withdraw_money }.to output(/#{COMMON_PHRASES[:withdraw_amount]}/).to_stdout
+          end
+        end
+      end
+    end
+  end
+end
+</code>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScripts -->
+    <script src='../assets/javascripts/jquery.min.js'></script>
+    <script src='../assets/javascripts/jquery.tablesorter.min.js'></script>
+    <script src='../assets/javascripts/jquery.scrollTo.min.js'></script>
+    <script src='../assets/javascripts/jquery.timeago.js'></script>
+    <script src='../assets/javascripts/highcharts.src-4.0.1.js'></script>
+    <script src='../assets/javascripts/prettify.js'></script>
+    <script src='../assets/javascripts/bootstrap.min.js'></script>
+    <script src='../assets/javascripts/application.js'></script>
+    <script src='../assets/javascripts/jquery.filtertable.min.js'></script>
+  </body>
+</html>

@@ -3,12 +3,6 @@
 require_relative '../helpers/database'
 
 module WithAccount
-  def accounts
-    return [] unless File.exist?(PATH)
-
-    YAML.load_file(PATH)
-  end
-
   def update_accounts(updated_account)
     write_to_file(update_info(updated_account))
   end
@@ -39,12 +33,11 @@ module WithAccount
     end
   end
 
-  def allowance_updating(account, account_card, cards)
+  def allowance_updating(_account, account_card, cards)
     cards.each do |card|
       next unless account_card.number == card.number
 
       account_card.balance = card.balance
-      updated_account = account
     end
   end
 

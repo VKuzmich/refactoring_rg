@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 
 module UI
-  EXIT = 'exit'.freeze
-  YES = 'y'.freeze
+  EXIT = 'exit'
+  YES = 'y'
 
   COMMANDS = {
     create: I18n.t(:create),
@@ -23,7 +24,7 @@ module UI
       PM: proc { put_money },
       WM: proc { withdraw_money },
       SM: proc { send_money },
-      DA: proc { destroy_account; exit }
+      DA: proc { destroy_account }
     }
   end
 
@@ -45,6 +46,7 @@ module UI
     @errors.each { |error| puts error }
     @errors = []
   end
+
   def create_card_message
     puts I18n.t('Message.create_card')
     puts I18n.t('Message.for_usual_card')
