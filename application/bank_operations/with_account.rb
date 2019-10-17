@@ -14,7 +14,7 @@ module WithAccount
   end
 
   def account_exist(login, password)
-    accounts.map do |account|
+    load_db.map do |account|
       { login: account.login, password: account.password }
     end.include?(login: login, password: password)
   end
@@ -22,7 +22,7 @@ module WithAccount
   private
 
   def updating_account(cards)
-    accounts.each do |account|
+    load_db.each do |account|
       updating_through_card(account, cards)
     end
   end
@@ -42,7 +42,7 @@ module WithAccount
   end
 
   def update_info(updated_account)
-    accounts.map do |account|
+    load_db.map do |account|
       account.login == updated_account.login ? updated_account : account
     end
   end

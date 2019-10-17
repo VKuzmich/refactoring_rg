@@ -28,11 +28,7 @@ class Account
     @account.current_account.card.include? card
   end
 
-  def create_new_card
-    create_card
-  end
-
-  def generate_card(type)
+  def create_new_card(type)
     case type
     when I18n.t('Usual')
       CardUsual.new
@@ -43,8 +39,8 @@ class Account
     end
   end
 
-  def delete_card
-    destroy_card
+  def destroy
+    write_to_file(load_db.reject { |account| account.login == @login })
   end
 
   def update_card; end

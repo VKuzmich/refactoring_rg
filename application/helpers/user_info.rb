@@ -13,7 +13,7 @@ module UserInfo
 
   def user_login
     login = enter_login
-    login_validation(login)
+    validate_login(login)
     @account.login = login if valid?
   end
 

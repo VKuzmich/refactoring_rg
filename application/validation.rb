@@ -2,6 +2,11 @@
 
 module Validation
   POSITIVE_INFINITY = +1.0 / 0.0
+  VALID_RANGE = {
+      age: (23..89),
+      login: (4..20),
+      password: (6..30)
+  }.freeze
 
   def name_validation(name)
     return if name != '' && name[0].upcase == name[0]
@@ -9,17 +14,16 @@ module Validation
     @account.errors.push(I18n.t(:name_must_not_be_empty))
   end
 
-  def login_validation(login)
-    case login.length
-    when 0
-      @account.errors.push(I18n.t(:login_present))
-    when 1..4
-      @account.errors.push(I18n.t(:login_longer_than_4_symbols))
-    when 20..POSITIVE_INFINITY
-      @account.errors.push(I18n.t(:login_less_than_20_symbols))
-    end
+  def validate_login(login)
+    @login = login
+    @account.errors.push(I18n.t(:login_present)) if @login.empty?
+    @account.errors.push(I18n.t(:login_longer_than_4_symbols)) if @login.size < VALID_RANGE[:login].min
+    @account.errors.push(I18n.t(:login_less_than_20_symbols)) if @login.size > VALID_RANGE[:login].max
+    @account.errors.push(I18n.t(:account_exists)) if load_db.map(&:login).include? login
+  end
 
-    @account.errors.push(I18n.t(:account_exists)) if accounts.map(&:login).include? login
+  def account_exists?
+    account.detect { |account_in_db| account_in_db.login == @login }
   end
 
   def password_validation(password)

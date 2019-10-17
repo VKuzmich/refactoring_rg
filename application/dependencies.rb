@@ -12,6 +12,7 @@ require_relative 'helpers/database'
 require_relative 'helpers/ui'
 require_relative 'bank_operations/with_account'
 require_relative '../application/console'
+require_relative '../application/console_helper'
 require_relative 'account'
 
 require_relative 'cards/card'

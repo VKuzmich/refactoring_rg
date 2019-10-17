@@ -138,7 +138,7 @@ RSpec.describe Console do
       before do
         allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*success_inputs)
         allow(current_subject).to receive(:main_menu)
-        allow(current_subject).to receive(:accounts).and_return([])
+        allow(current_subject).to receive(:load_db).and_return([])
       end
 
       after do
@@ -172,7 +172,7 @@ RSpec.describe Console do
         allow(File).to receive(:open)
         allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*all_inputs)
         allow(current_subject).to receive(:main_menu)
-        allow(current_subject).to receive(:accounts).and_return([])
+        allow(current_subject).to receive(:load_db).and_return([])
       end
 
       context 'with name errors' do
@@ -214,7 +214,7 @@ RSpec.describe Console do
           let(:error) { ACCOUNT_VALIDATION_PHRASES[:login][:exists] }
 
           before do
-            allow(current_subject).to receive(:accounts) { [instance_double('Account', login: error_input)] }
+            allow(current_subject).to receive(:load_db) { [instance_double('Account', login: error_input)] }
           end
 
           it { expect { current_subject.create }.to output(/#{error}/).to_stdout }
@@ -268,7 +268,7 @@ RSpec.describe Console do
   describe '#load' do
     context 'without active accounts' do
       it do
-        expect(current_subject).to receive(:accounts).and_return([])
+        expect(current_subject).to receive(:load_db).and_return([])
         expect(current_subject).to receive(:create_the_first_account).and_return([])
         current_subject.load
       end
@@ -280,7 +280,7 @@ RSpec.describe Console do
 
       before do
         allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*all_inputs)
-        allow(current_subject).to receive(:accounts) { [instance_double('Account', login: login, password: password)] }
+        allow(current_subject).to receive(:load_db) { [instance_double('Account', login: login, password: password)] }
       end
 
       context 'with correct outout' do
@@ -418,7 +418,7 @@ RSpec.describe Console do
     context 'when deleting' do
       it 'deletes account if user inputs is y' do
         expect(current_subject).to receive_message_chain(:gets, :chomp) { success_input }
-        expect(current_subject).to receive(:accounts) { accounts }
+        expect(current_subject).to receive(:load_db) { accounts }
         account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
         account.instance_variable_set(:@current_account, instance_double('Account', login: correct_login))
         current_subject.instance_variable_set(:@account, account)
@@ -443,8 +443,8 @@ RSpec.describe Console do
 
   describe '#show_cards' do
     let(:account) { Account.new }
-    let(:usual_card) { current_subject.account.generate_card('usual') }
-    let(:virtual_card) { current_subject.account.generate_card('virtual') }
+    let(:usual_card) { current_subject.account.create_new_card('usual') }
+    let(:virtual_card) { current_subject.account.create_new_card('virtual') }
     let(:cards) { [usual_card, virtual_card] }
 
     it 'display cards if there are any' do
@@ -473,7 +473,7 @@ RSpec.describe Console do
         account.instance_variable_set(:@card, [])
         account.instance_variable_set(:@current_account, account)
         current_subject.instance_variable_set(:@account, account)
-        allow(current_subject).to receive(:accounts).and_return([])
+        allow(current_subject).to receive(:load_db).and_return([])
         allow(File).to receive(:open)
         expect(current_subject).to receive_message_chain(:gets, :chomp) { 'usual' }
 
@@ -484,7 +484,7 @@ RSpec.describe Console do
     context 'when correct card choose' do
       before do
         allow(account).to receive(:card).and_return([])
-        allow(current_subject).to receive(:accounts) { [account] }
+        allow(current_subject).to receive(:load_db) { [account] }
         account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
         account.instance_variable_set(:@current_account, account)
         current_subject.instance_variable_set(:@account, account)
@@ -514,7 +514,7 @@ RSpec.describe Console do
         current_subject.instance_variable_set(:@card, [])
         current_subject.instance_variable_set(:@current_account, current_subject)
         allow(File).to receive(:open)
-        allow(current_subject).to receive(:accounts).and_return([])
+        allow(current_subject).to receive(:load_db).and_return([])
         allow(current_subject).to receive_message_chain(:gets, :chomp).and_return('test', 'usual')
 
         expect { current_subject.create_card }.to output(/#{ERROR_PHRASES[:wrong_card_type]}/).to_stdout
@@ -591,7 +591,7 @@ RSpec.describe Console do
         before do
           account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
           account.instance_variable_set(:@card, fake_cards)
-          allow(current_subject).to receive(:accounts) { [account] }
+          allow(current_subject).to receive(:load_db) { [account] }
           account.instance_variable_set(:@current_account, account)
           current_subject.instance_variable_set(:@account, account)
         end
@@ -750,7 +750,7 @@ RSpec.describe Console do
               custom_cards.each do |custom_card|
                 custom_card.instance_variable_set(:@balance, default_balance)
                 allow(current_subject).to receive_message_chain(:gets, :chomp).and_return(*commands)
-                allow(current_subject).to receive(:accounts) { [account] }
+                allow(current_subject).to receive(:load_db) { [account] }
                 account.instance_variable_set(:@card, [custom_card, card_one, card_two])
                 account.instance_variable_set(:@file_path, OVERRIDABLE_FILENAME)
                 current_subject.instance_variable_set(:@account, account)

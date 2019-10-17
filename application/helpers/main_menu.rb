@@ -76,6 +76,6 @@ module MainMenu
   end
 
   def correct_number_card(card_number)
-    accounts.map(&:card).flatten.select { |card| card.number == card_number }.first
+    load_db.map(&:card).flatten.select { |card| card.number == card_number }.first
   end
 end
