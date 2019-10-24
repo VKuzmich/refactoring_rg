@@ -5,21 +5,29 @@ require_relative 'card'
 class CardVirtual < Card
   attr_accessor :number, :balance, :type
 
-  def initialize
-    @type = I18n.t(:Virtual)
-    @number = generate_number
-    @balance = 150.00
+  DEFAULT_BALANCE = 150.00
+
+  TAXES = {
+    withdraw: 0.88,
+    put: 1,
+    sender: 1
+  }.freeze
+
+  def initialize(type)
+    @type = type
+    @balance = DEFAULT_BALANCE
+    super()
   end
 
   def withdraw_tax(amount)
-    amount * 0.88
+    amount * TAXES[:withdraw]
   end
 
   def put_tax(_amount)
-    1
+    TAXES[:put]
   end
 
   def sender_tax(_amount)
-    1
+    TAXES[:sender]
   end
 end

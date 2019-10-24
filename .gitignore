@@ -1,6 +1,6 @@
 .history
 accounts.yml
-spec/fixtures/account.yml
+#spec/fixtures/account.yml
 coverage
 .DS_Store.idea
 .idea

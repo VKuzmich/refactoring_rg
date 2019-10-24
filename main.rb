@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'application/console'
+require_relative 'dependencies'
 
-Console.new.run
+Console.new.console_menu
