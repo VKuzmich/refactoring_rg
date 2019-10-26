@@ -4,3 +4,4 @@ accounts.yml
 coverage
 .DS_Store.idea
 .idea
+.byebug_history
