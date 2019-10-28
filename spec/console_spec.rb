@@ -225,7 +225,7 @@ RSpec.describe Console do
           let(:error) { ACCOUNT_VALIDATION_PHRASES[:login][:exists] }
 
           before do
-            allow_any_instance_of(Account).to receive(:db_accounts) { [instance_double('Account', login: error_input)] }
+            allow_any_instance_of(LoginUniqueValidator).to receive(:db_accounts) { [instance_double('Account', login: error_input)] }
           end
 
           it { expect { current_subject.console_menu }.to output(/#{error}/).to_stdout }

@@ -25,9 +25,6 @@ class Account
     @errors.empty?
   end
 
-  def destroy
-    write_to_file(db_accounts.reject { |account| account.login == @login })
-  end
 
   def create_new_type_card(type)
     case type
@@ -48,38 +45,25 @@ class Account
   end
 
   def validation
-    login_validation
-    name_validation
-    age_validation
-    password_validation
+    login_validator = LoginValidator.new(@login)
+    @errors << login_validator.errors unless login_validator.valid?
+
+    login_unique_validator = LoginUniqueValidator.new(@login)
+    @errors << login_unique_validator.errors unless login_unique_validator.valid?
+
+    name_validator = NameValidator.new(@name)
+    @errors << name_validator.errors unless name_validator.valid?
+
+    age_validator = AgeValidator.new(@age)
+    @errors << age_validator.errors unless age_validator.valid?
+
+    password_validator = PasswordValidator.new(@password)
+    @errors << password_validator.errors unless password_validator.valid?
+
   end
 
-  def name_validation
-    @errors << I18n.t(:name_must_not_be_empty) unless upcase?
+  def destroy
+    write_to_file(db_accounts.reject { |account| account.login == @login })
   end
 
-  def upcase?
-    @name.capitalize[0] == @name[0]
-  end
-
-  def login_validation
-    @errors << I18n.t(:login_present) if @login.empty?
-    @errors << I18n.t(:login_longer_than_4_symbols) if @login.size < VALID_RANGE[:login].min
-    @errors << I18n.t(:login_less_than_20_symbols) if @login.size > VALID_RANGE[:login].max
-    @errors << I18n.t(:account_exists) if account_exists?
-  end
-
-  def password_validation
-    @errors << I18n.t(:password_must_present) if @password.empty?
-    @errors << I18n.t(:password_has_6_and_more_symbols) if @password.size < VALID_RANGE[:password].min
-    @errors << I18n.t(:password_has_30_and_less_symbols) if @password.size > VALID_RANGE[:password].max
-  end
-
-  def age_validation
-    @errors << I18n.t(:age_between_23_and_90) unless (VALID_RANGE[:age]).cover?(@age)
-  end
-
-  def account_exists?
-    db_accounts.detect { |account_in_db| account_in_db.login == @login }
-  end
 end

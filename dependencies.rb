@@ -12,6 +12,13 @@ require_relative 'application/cards/card_usual'
 require_relative 'application/cards/card_capitalist'
 require_relative 'application/cards/card_virtual'
 
+require_relative 'application/validators/login_validator'
+require_relative 'application/validators/login_unique_validator'
+require_relative 'application/validators/name_validator'
+require_relative 'application/validators/name_validator'
+require_relative 'application/validators/age_validator'
+require_relative 'application/validators/password_validator'
+
 require_relative 'application/helpers/user_info'
 require_relative 'application/account'
 

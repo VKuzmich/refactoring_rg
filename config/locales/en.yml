@@ -55,6 +55,7 @@ en:
    - If you want to exit - press `exit`"
 
   name_must_not_be_empty: 'Your name must not be empty and starts with first upcase letter'
+  name_capitalized: 'Your name must not be empty and starts with first upcase letter'
 
   login_present: 'Login must present'
   login_longer_than_4_symbols: 'Login must be longer then 4 symbols'
