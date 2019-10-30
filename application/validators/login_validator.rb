@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require_relative '../../dependencies'
 
 class LoginValidator
-
   include Database
 
   attr_accessor :errors, :login
-  def initialize (login)
+
+  def initialize(login)
     @errors = []
     @login = login
   end

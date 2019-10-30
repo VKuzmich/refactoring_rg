@@ -1,12 +1,11 @@
-
+# frozen_string_literal: true
 
 require_relative '../../dependencies'
 
 class AgeValidator
-
   attr_accessor :errors, :age
 
-  def initialize (age)
+  def initialize(age)
     @errors = []
     @age = age
   end

@@ -1,13 +1,12 @@
-
+# frozen_string_literal: true
 
 require_relative '../../dependencies'
 
 class LoginUniqueValidator
-
   include Database
 
   attr_accessor :errors, :login
-  def initialize (login)
+  def initialize(login)
     @errors = []
     @login = login
   end
@@ -22,7 +21,4 @@ class LoginUniqueValidator
   def account_exists?
     !db_accounts.detect { |account_in_db| account_in_db.login == @login }.nil?
   end
-
-
-
 end

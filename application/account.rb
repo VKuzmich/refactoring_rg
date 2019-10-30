@@ -25,7 +25,6 @@ class Account
     @errors.empty?
   end
 
-
   def create_new_type_card(type)
     case type
     when Card::CARD_TYPES[:usual]      then @cards << CardUsual.new(type)
@@ -59,11 +58,9 @@ class Account
 
     password_validator = PasswordValidator.new(@password)
     @errors << password_validator.errors unless password_validator.valid?
-
   end
 
   def destroy
     write_to_file(db_accounts.reject { |account| account.login == @login })
   end
-
 end

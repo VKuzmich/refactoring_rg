@@ -1,12 +1,11 @@
-
+# frozen_string_literal: true
 
 require_relative '../../dependencies'
 
 class PasswordValidator
-
   attr_accessor :errors, :password
 
-  def initialize (password)
+  def initialize(password)
     @errors = []
     @password = password
   end

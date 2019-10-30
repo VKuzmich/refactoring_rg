@@ -1,11 +1,11 @@
-
+# frozen_string_literal: true
 
 require_relative '../../dependencies'
 
 class NameValidator
-
   attr_accessor :errors, :name
-  def initialize (name)
+
+  def initialize(name)
     @errors = []
     @name = name
   end
