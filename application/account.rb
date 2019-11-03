@@ -21,7 +21,7 @@ class Account
   end
 
   def valid?
-    validation
+    validate
     @errors.empty?
   end
 
@@ -43,7 +43,7 @@ class Account
     end
   end
 
-  def validation
+  def validate
     login_validator = LoginValidator.new(@login)
     @errors << login_validator.errors unless login_validator.valid?
 

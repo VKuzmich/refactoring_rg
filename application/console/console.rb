@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-class Console < ConsoleHelper
+require_relative '../../dependencies'
+
+class Console
+  include ConsoleHelper
+
   def console_menu
     output(I18n.t('Greetings'))
     case user_input

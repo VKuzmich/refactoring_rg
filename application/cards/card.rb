@@ -64,6 +64,8 @@ class Card
     amount * percent_tax + fixed_tax
   end
 
+  private
+
   def withdraw_percent_tax
     0
   end

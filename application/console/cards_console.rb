@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-class CardsConsole < ConsoleHelper
+require_relative '../../dependencies'
+
+class CardsConsole
+  include ConsoleHelper
+
   def initialize(account)
     @account = account
   end
@@ -36,11 +40,7 @@ class CardsConsole < ConsoleHelper
     return output(I18n.t('ERROR.tax_higher')) unless card.operation_put_valid?(amount)
 
     card.put_money(amount)
-    output(I18n.t('common_phrases.after_put',
-                  amount: amount,
-                  number: card.number,
-                  balance: card.balance,
-                  tax: card.put_tax(amount)))
+    after_put_msg(amount, card)
   end
 
   def validate_operation(command)
@@ -69,11 +69,7 @@ class CardsConsole < ConsoleHelper
     return output(I18n.t('ERROR.no_money_left')) unless card.operation_withdraw_valid?(amount)
 
     card.withdraw_money(amount)
-    output(I18n.t('common_phrases.after_withdraw',
-                  amount: amount,
-                  number: card.number,
-                  balance: card.balance,
-                  tax: card.withdraw_tax(amount)))
+    after_withdraw_msg(amount, card)
   end
 
   def send_account_money(command)
@@ -101,16 +97,8 @@ class CardsConsole < ConsoleHelper
   def send_money_operation(sender_card, recipient_card, amount)
     sender_card.send_money(amount)
     recipient_card.put_money(amount)
-    output(I18n.t('common_phrases.after_withdraw',
-                  amount: amount,
-                  number: sender_card.number,
-                  balance: sender_card.balance,
-                  tax: sender_card.sender_tax(amount)))
-    output(I18n.t('common_phrases.after_put',
-                  amount: amount,
-                  number: recipient_card.number,
-                  balance: recipient_card.balance,
-                  tax: recipient_card.put_tax(amount)))
+    after_withdraw_msg(amount, sender_card)
+    after_put_msg(amount, recipient_card)
   end
 
   def recipient_card_validation
@@ -142,6 +130,22 @@ class CardsConsole < ConsoleHelper
   end
 
   private
+
+  def after_withdraw_msg(amount, sender_card)
+    output(I18n.t('common_phrases.after_withdraw',
+                  amount: amount,
+                  number: sender_card.number,
+                  balance: sender_card.balance,
+                  tax: sender_card.sender_tax(amount)))
+  end
+
+  def after_put_msg(amount, recipient_card)
+    output(I18n.t('common_phrases.after_put',
+                  amount: amount,
+                  number: recipient_card.number,
+                  balance: recipient_card.balance,
+                  tax: recipient_card.put_tax(amount)))
+  end
 
   def card_amount(operation)
     card = operation[:chosen_card]

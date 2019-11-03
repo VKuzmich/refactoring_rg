@@ -2,7 +2,7 @@
 
 require_relative '../../dependencies'
 
-class ConsoleHelper
+module ConsoleHelper
   include UserInfo
   include Database
 
