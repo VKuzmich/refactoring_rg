@@ -133,18 +133,19 @@ class CardsConsole
 
   def after_withdraw_msg(amount, sender_card)
     output(I18n.t('common_phrases.after_withdraw',
-                  amount: amount,
-                  number: sender_card.number,
-                  balance: sender_card.balance,
-                  tax: sender_card.sender_tax(amount)))
+                  card_attributes(amount, sender_card, sender_card.sender_tax(amount))))
   end
 
   def after_put_msg(amount, recipient_card)
     output(I18n.t('common_phrases.after_put',
-                  amount: amount,
-                  number: recipient_card.number,
-                  balance: recipient_card.balance,
-                  tax: recipient_card.put_tax(amount)))
+                  card_attributes(amount, recipient_card, recipient_card.put_tax(amount))))
+  end
+
+  def card_attributes(amount, card, tax)
+    {amount: amount,
+     number: card.number,
+     balance: card.balance,
+     tax: tax}
   end
 
   def card_amount(operation)
