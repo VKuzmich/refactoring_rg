@@ -11,7 +11,7 @@ class AgeValidator
   end
 
   def valid?
-    @errors << I18n.t(:age_between, number: Account::VALID_RANGE[:age].min && Account::VALID_RANGE[:age].max) unless
+    @errors << I18n.t(:age_between, min: Account::VALID_RANGE[:age].min, max: Account::VALID_RANGE[:age].max) unless
         (Account::VALID_RANGE[:age]).cover?(@age)
     @errors.empty?
   end
