@@ -17,10 +17,10 @@ class Console
 
   def create_account
     loop do
-      name = user_name
-      age = user_age
-      login = user_login
-      password = user_password
+      name = enter_name
+      age = enter_age
+      login = enter_login
+      password = enter_password
       @account = Account.new(name: name, age: age, login: login, password: password)
       @account.valid? ? break : output(@account.errors.join("\n"))
     end
@@ -32,13 +32,9 @@ class Console
     return create_the_first_account if accounts_db.empty?
 
     loop do
-      @account = Account.find_account(log_and_pass, accounts_db)
+      @account = Account.find_account(login_and_password, accounts_db)
       @account.nil? ? output(I18n.t('ERROR.user_not_exists')) : break
     end
-  end
-
-  def log_and_pass
-    { login: user_login, password: user_password }
   end
 
   def create_the_first_account
@@ -99,5 +95,11 @@ class Console
 
   def redirect_to_cards_console(command)
     CardsConsole.new(@account).cards_choices(command)
+  end
+
+  private
+
+  def login_and_password
+    { login: enter_login, password: enter_password }
   end
 end

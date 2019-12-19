@@ -136,10 +136,10 @@ class CardsConsole
   private
 
   def card_attributes(amount, card, tax)
-    {amount: amount,
-     number: card.number,
-     balance: card.balance,
-     tax: tax}
+    { amount: amount,
+      number: card.number,
+      balance: card.balance,
+      tax: tax }
   end
 
   def card_amount(operation)

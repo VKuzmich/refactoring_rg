@@ -58,8 +58,8 @@ en:
   name_capitalized: 'Your name must not be empty and starts with first upcase letter'
 
   login_present: 'Login must present'
-  login_longer_than_4_symbols: 'Login must be longer then 4 symbols'
-  login_less_than_20_symbols: 'Login must be shorter then 20 symbols'
+  login_longer_than_symbols: 'Login must be longer then 4 symbols'
+  login_less_than_symbols: 'Login must be shorter then 20 symbols'
 
   account_exists: 'Such account is already exists'
 
@@ -67,7 +67,7 @@ en:
   password_has_6_and_more_symbols: 'Password must be longer then 6 symbols'
   password_has_30_and_less_symbols: 'Password must be shorter then 30 symbols'
 
-  age_between_23_and_90: 'Your Age must be greeter then 23 and lower then 90'
+  age_between: 'Your Age must be greeter then 23 and lower then 90'
   no_active_account_yet: "there are no active accounts, type 'y' if you want to create one"
 
   press_exit: "enter `exit` to exit\n"

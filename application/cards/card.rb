@@ -45,7 +45,7 @@ class Card
   end
 
   def withdraw_money(amount)
-    @balance -= amount - withdraw_tax(amount)
+    amount - withdraw_tax(amount)
   end
 
   def operation_withdraw_valid?(amount)

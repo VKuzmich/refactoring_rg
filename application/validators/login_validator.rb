@@ -14,8 +14,10 @@ class LoginValidator
 
   def valid?
     @errors.push(I18n.t(:login_present)) if @login.empty?
-    @errors << I18n.t(:login_longer_than_4_symbols) if @login.size < Account::VALID_RANGE[:login].min
-    @errors << I18n.t(:login_less_than_20_symbols) if @login.size > Account::VALID_RANGE[:login].max
+    @errors << I18n.t(:login_longer_than_symbols, number: Account::VALID_RANGE[:login].min) if
+        @login.size < Account::VALID_RANGE[:login].min
+    @errors << I18n.t(:login_less_than_symbols, number: Account::VALID_RANGE[:login].max) if
+        @login.size > Account::VALID_RANGE[:login].max
     @errors.empty?
   end
 end

@@ -6,7 +6,7 @@ class Account
   include Database
 
   VALID_RANGE = {
-    age: (23..89),
+    age: (23..90),
     login: (4..20),
     password: (6..30)
   }.freeze
